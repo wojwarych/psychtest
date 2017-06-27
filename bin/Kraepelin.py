@@ -78,7 +78,7 @@ class KrepTest(tk.Frame):
 		
 		self.text = tk.Text(
 							text_frame, font=LARGE_FONT, width=25,
-							bg="#EEEEEE", borderwidth=0,
+							bg="#F0F0F0", borderwidth=0,
 						   )
 		self.text.grid(row=0, column=0)
 
@@ -254,7 +254,7 @@ class KrepFinish(tk.Frame):
 
 		self.text_finish = tk.Text(
 								   text_frame_finish, font=LARGE_FONT, width=25,
-								   bg="#EEEEEE", borderwidth=0,
+								   bg="#F0F0F0", borderwidth=0,
 						   		  )
 		self.text_finish.grid(row=0, column=0)
 		finish_text = 10*'\n'+"Thank you in participating in test. Click 'Next', to go further"

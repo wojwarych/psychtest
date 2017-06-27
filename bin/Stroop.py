@@ -145,7 +145,7 @@ class StroopColor(tk.Frame):
 
 		self.text_color = tk.Text(
 								  text_color_frame, font=LARGE_FONT, width=25,
-								  bg="#EEEEEE", borderwidth=0
+								  bg="#F0F0F0", borderwidth=0
 								 )
 		self.text_color.grid(row=0, column=0)
 
@@ -377,7 +377,7 @@ class StroopNumber(tk.Frame):
 
 		self.numbers = tk.Text(
 							   number_frame, font=LARGE_FONT, width=25,
-							   bg="#EEEEEE", borderwidth=0
+							   bg="#F0F0F0", borderwidth=0
 							  )
 		self.numbers.grid(row=0, column=0)
 
