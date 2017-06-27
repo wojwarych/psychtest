@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 
+import os.path
+
 from Kraepelin import Kraepelin, KrepTest, KrepFinish
 from StartPage import StartPage
 from Stroop import Stroop, StroopColor, StroopNumber, StroopFigural
@@ -27,8 +29,11 @@ class PsychTest(tk.Tk):
 		tk.Tk.__init__(self, *args, **kwargs)
 
 		#setting the name and logo of window
+		basepath = os.path.dirname(__file__)
+		imagepath = os.path.abspath(os.path.join(basepath, "..", "img", "brain_icon.ico")) 
+
 		tk.Tk.wm_title(self, "PsychTest")
-		tk.Tk.iconbitmap(self, default="brain_icon.ico")
+		tk.Tk.iconbitmap(self, default=imagepath)
 
 		#Container for frames to pop-up from stack
 		container = tk.Frame(self)

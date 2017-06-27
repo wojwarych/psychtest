@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
+import os.path
 from PIL import Image, ImageTk
 
 #constans
@@ -29,7 +30,10 @@ class StartPage(tk.Frame):
 		picframe.grid(row=0, column=0)
 
 		#mainpicture
-		pic = Image.open("brain.png")
+		basepath = os.path.dirname(__file__)
+		imagepath = os.path.abspath(os.path.join(basepath, "..", "img", "brain.png"))
+
+		pic = Image.open(imagepath)
 		on_screen = ImageTk.PhotoImage(pic)
 		logo = tk.Label(picframe, image=on_screen)
 		logo.image = on_screen
