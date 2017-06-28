@@ -14,6 +14,7 @@ class Rotation(tk.Frame):
 
 	def __init__(self, parent, controller):
 
+
 		tk.Frame.__init__(self, parent)
 		self.controller = controller
 		self.grid_rowconfigure(0, weight=2, minsize=317)
@@ -27,8 +28,8 @@ class Rotation(tk.Frame):
 			justify='center')
 		self.descrip_text.grid(row=0, column=0)
 		
-		#Lines underneath - creating additional frames and gridding them in
-		#order to properly set the widgets
+		#Lines underneath - creating additional frames
+		#and gridding them in order to properly set the widgets
 		buttonframe = tk.Frame(self)
 		buttonframe.grid(row=1, column=0)
 
@@ -63,6 +64,7 @@ class RotationLetter(tk.Frame):
 
 	def __init__(self, parent, controller):
 
+
 		tk.Frame.__init__(self, parent)
 		self.controller = controller
 		self.grid_rowconfigure(0, weight=2, minsize=317)
@@ -76,8 +78,8 @@ class RotationLetter(tk.Frame):
 			font=LARGE_FONT, justify='center')
 		self.descrip_text.grid(row=0, column=0)
 		
-		#Lines underneath - creating additional frames and gridding them in
-		#order to properly set the widgets
+		#Lines underneath - creating additional frames
+		#and gridding them in order to properly set the widgets
 		buttonframe = tk.Frame(self)
 		buttonframe.grid(row=1, column=0)
 
@@ -89,6 +91,8 @@ class RotationLetter(tk.Frame):
 
 
 	def postupdate(self):
+
+
 		self.startbut.focus_set()
 
 
@@ -111,8 +115,8 @@ class RotationFigure(tk.Frame):
 			justify='center')
 		self.descrip_text.grid(row=0, column=0)
 		
-		#Lines underneath - creating additional frames and gridding them in
-		#order to properly set the widgets
+		#Lines underneath - creating additional frames
+		#and gridding them in order to properly set the widgets
 		buttonframe = tk.Frame(self)
 		buttonframe.grid(row=1, column=0)
 
@@ -133,6 +137,7 @@ class RotationImage(tk.Frame):
 
 	def __init__(self, parent, controller):
 
+
 		tk.Frame.__init__(self, parent)
 		self.controller = controller
 		self.grid_rowconfigure(0, weight=2, minsize=317)
@@ -146,8 +151,8 @@ class RotationImage(tk.Frame):
 			justify='center')
 		self.descrip_text.grid(row=0, column=0)
 		
-		#Lines underneath - creating additional frames and gridding them in
-		#order to properly set the widgets
+		#Lines underneath - creating additional frames
+		#and gridding them in order to properly set the widgets
 		buttonframe = tk.Frame(self)
 		buttonframe.grid(row=1, column=0)
 
@@ -159,4 +164,6 @@ class RotationImage(tk.Frame):
 
 
 	def postupdate(self):
+
+		
 		self.startbut.focus_set()

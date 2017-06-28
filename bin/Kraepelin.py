@@ -15,6 +15,8 @@ Your goal in this test is to count the sum of these numbers.
 Next, type in your number and press enter.
 The program counts your good and bad answers as well as time."""
 
+thank_you_note = (
+	"Thank you in participating in test. Click 'Next', to go further")
 
 class Kraepelin(tk.Frame):
 
@@ -52,7 +54,7 @@ class Kraepelin(tk.Frame):
 	def postupdate(self):
 
 
-		'''Function to change focus between classes-frames in controller'''
+		"""Function to change focus between classes-frames in controller"""
 		self.go_button.focus()
 
 
@@ -136,7 +138,8 @@ class KrepTest(tk.Frame):
 		str_column = self.krep_test()
 		#print(str_column)
 
-		#enable change text in self.text widget in order to insert str_column
+		#enable change text in self.text widget in
+		#order to insert str_column
 		self.text['state'] = 'normal'
 
 		self.text.delete('1.0', tk.END)
@@ -146,8 +149,9 @@ class KrepTest(tk.Frame):
 
 		self.text['state'] = 'disabled'
 
-		#after putting new col start counting time from showing col to event
-		#'Enter' which stops timer and sends value of self.controller.krep_answer
+		#after putting new col start counting time
+		#from showing col to event 'Enter' which stops timer
+		#and sends value of self.controller.krep_answer
 		self.start_count()
 
 		self.entryvar = tk.Entry(
@@ -179,11 +183,11 @@ class KrepTest(tk.Frame):
 	def stop_count(self):
 
 
-		"""Stop counting time when user presses the enter button.
-		Add time to list"""
+		"""Stop counting time after pressing button. Add time to list"""
 		self.controller.krep_time_finish = (
 			round(time.time() - self.controller.krep_time_start, 4))
-		self.controller.krep_time_stamps.append(self.controller.krep_time_finish)
+		self.controller.krep_time_stamps.append(
+			self.controller.krep_time_finish)
 
 		#get inserted by the user value
 		self.append_entry_answers()
@@ -196,7 +200,8 @@ class KrepTest(tk.Frame):
 
 
 		"""Store value from self.entryvar in list for later comparison"""
-		self.controller.krep_answer_total.append(int(self.controller.krep_answer.get()))
+		self.controller.krep_answer_total.append(
+			int(self.controller.krep_answer.get()))
 
 
 	def krep_test(self):
@@ -217,8 +222,8 @@ class KrepTest(tk.Frame):
 	def check_value(self):
 
 
-		"""Check if value from showed column is equal
-		to its self.controller.answer_krep"""
+		"""Check if value from showed column is equal to its
+			self.controller.answer_krep"""
 		for i, j in enumerate(self.controller.krep_compare_total):
 
 			if (self.controller.krep_compare_total[i]
@@ -248,7 +253,7 @@ class KrepFinish(tk.Frame):
 			text_frame_finish, font=LARGE_FONT, width=25,bg="#F0F0F0",
 			borderwidth=0)
 		self.text_finish.grid(row=0, column=0)
-		finish_text = 10*'\n'+"Thank you in participating in test. Click 'Next', to go further"
+		finish_text = (10*'\n' + thank_you_note)
 		self.text_finish.insert('1.0', finish_text)
 		self.text_finish.tag_configure("center", justify='center')
 		self.text_finish.tag_add("center", "1.0", tk.END)

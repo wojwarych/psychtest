@@ -88,6 +88,9 @@ class StartPage(tk.Frame):
 		quit_button.bind("<q>", lambda f: quit())
 		quit_button.grid(row=0, column=1, padx=2, sticky='se')
 
+
 	def postupdate(self):
+
+
 		'''Overrides the behaviour of tkraise() method, which messes focus()'''
 		self.nxt_button.focus()

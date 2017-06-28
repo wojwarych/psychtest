@@ -158,7 +158,7 @@ class StroopColor(tk.Frame):
 		#remove start button from the view
 		self.nav_button.grid_remove()
 
-		#bigger font in self.text_color for fixation point 
+		#bigger font in self.text_color for fixation point
 		self.fixation_font = Font(family='Verdana', size=18)
 		self.text_color.tag_configure('fix_big', font=self.fixation_font)
 
@@ -211,6 +211,7 @@ class StroopColor(tk.Frame):
 
 	def random_choice(self):
 
+
 		#colours and words to choose from
 		colour = {
 				  'blue':'#0f52ba', 'green':'#92c544', 'yellow':'#fec611',
@@ -241,7 +242,8 @@ class StroopColor(tk.Frame):
 		else:
 			self.controller.stroop_bad_answ += 1
 
-		#return to function, to delete word and create fixation point again
+		#return to function, to delete word and
+		#create fixation point again
 		self.stop_count()
 
 
@@ -256,7 +258,8 @@ class StroopColor(tk.Frame):
 		else:
 			self.controller.stroop_bad_answ += 1
 
-		#return to function, to delete word and create fixation point again
+		#return to function, to delete word and create
+		#fixation point again
 		self.stop_count()
 
 
@@ -379,7 +382,7 @@ class StroopNumber(tk.Frame):
 		#remove start button from the view
 		self.nav_button.grid_remove()
 
-		#bigger font in self.text_color for fixation point 
+		#bigger font in self.text_color for fixation point
 		self.fixation_font = Font(family='Verdana', size=18)
 		self.numbers.tag_configure('fix_big', font=self.fixation_font)
 
@@ -413,7 +416,8 @@ class StroopNumber(tk.Frame):
 
 		self.numbers['state'] = 'normal'
 		
-		#delete fixation point and add first digit from self.random_choice()
+		#delete fixation point and add first digit
+		#from self.random_choice()
 		self.numbers.delete('1.0', tk.END)
 		self.numbers.insert('1.0', 10*'\n')
 		self.numbers.insert('11.0', str(self.first_num)+"     ")
@@ -465,8 +469,10 @@ class StroopNumber(tk.Frame):
 		#if number values and sizes are congruent and
 		#user pressed arrow up -> good answer; else: wrong
 
-		if ((self.first_num > self.second_num and self.sizes[0] > self.sizes[1]
-		or self.first_num < self.second_num and self.sizes[0] < self.sizes[1])):
+		if ((self.first_num > self.second_num
+			and self.sizes[0] > self.sizes[1]
+		or self.first_num < self.second_num
+			and self.sizes[0] < self.sizes[1])):
 			
 			self.controller.stroop_good_answ += 1
 
@@ -474,7 +480,8 @@ class StroopNumber(tk.Frame):
 
 			self.controller.stroop_bad_answ += 1
 
-		#return to function, to delete numbers and create fixation point again
+		#return to function, to delete numbers
+		#and create fixation point again
 		self.stop_count()
 
 
@@ -484,8 +491,10 @@ class StroopNumber(tk.Frame):
 		#if number values and sizes are not congruent and
 		#user pressed arrown down -> good answer; else: wrong
 
-		if ((self.first_num > self.second_num and self.sizes[0] < self.sizes[1]
-		or self.first_num < self.second_num and self.sizes[0] > self.sizes[1])):
+		if (self.first_num > self.second_num
+			and self.sizes[0] < self.sizes[1]
+		or self.first_num < self.second_num
+			and self.sizes[0] > self.sizes[1]):
 			
 			self.controller.stroop_good_answ += 1
 
@@ -493,7 +502,8 @@ class StroopNumber(tk.Frame):
 
 			self.controller.stroop_bad_answ += 1
 
-		#return to function, to delete number and create fixation point again
+		#return to function, to delete number
+		#and create fixation point again
 		self.stop_count()
 
 
@@ -509,8 +519,10 @@ class StroopNumber(tk.Frame):
 
 		#stop counting time (between showing the numbers and user's decision)
 
-		if ((self.first_num > self.second_num and self.sizes[0] > self.sizes[1])
-		or (self.first_num < self.second_num and self.sizes[0] < self.sizes[1])):
+		if ((self.first_num > self.second_num
+			and self.sizes[0] > self.sizes[1])
+		or (self.first_num < self.second_num
+			and self.sizes[0] < self.sizes[1])):
 
 			self.controller.stroop_finish_time = (round(time.time()
 				- self.controller.stroop_start_time, 4))
@@ -522,7 +534,6 @@ class StroopNumber(tk.Frame):
 				self.controller.stroop_finish_time)
 
 		else:
-
 			self.controller.stroop_finish_time = (round(time.time()
 				- self.controller.stroop_start_time, 4))
 

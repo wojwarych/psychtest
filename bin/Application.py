@@ -104,7 +104,8 @@ class PsychTest(tk.Tk):
 		self.type_rotation = tk.StringVar()
 		self.type_rotation.set('a')
 
-		#Pack the other windows, as a classes, in a stack; they are children of 'container' frame
+		#Pack the other windows, as a classes, in a stack;
+		#they are children of 'container' frame
 		self.frames = {}
 
 		for F, geometry in zip((
@@ -167,6 +168,7 @@ class PsychTest(tk.Tk):
 
 
 		"""Method to choose proper starting experiment by program"""
+		
 		if self.krep.get() == 1:
 			
 			self.show_frame("Kraepelin")
