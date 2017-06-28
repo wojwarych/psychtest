@@ -31,22 +31,18 @@ class Kraepelin(tk.Frame):
 		content_frame.grid(row=0, column=0)
 		
 		test_description = tk.Label(
-									content_frame, font=LARGE_FONT,
-									text=KRAEP_DESCRIPTION
-								   )
+			content_frame, font=LARGE_FONT, text=KRAEP_DESCRIPTION)
 		test_description.grid(row=0, column=0)
 
 		#frame for navigation button
 		navigate_frame = tk.Frame(self)
 		navigate_frame.grid(row=1, column=0)
 		
-		self.go_button = ttk.Button(navigate_frame, text="Go",command=lambda:
-							   		self.controller.show_frame("KrepTest")
-								   )
+		self.go_button = ttk.Button(
+			navigate_frame, text="Go",
+			command=lambda: self.controller.show_frame("KrepTest"))
 		self.go_button.bind(
-							"<Return>",
-							lambda f: self.controller.show_frame("KrepTest")
-						   )
+			"<Return>", lambda f: self.controller.show_frame("KrepTest"))
 		self.go_button.grid(row=0, column=0, padx=15, pady=5)
 
 		quit_button = ttk.Button(navigate_frame, text="Quit", command=quit)
@@ -55,9 +51,9 @@ class Kraepelin(tk.Frame):
 
 	def postupdate(self):
 
+
 		'''Function to change focus between classes-frames in controller'''
 		self.go_button.focus()
-
 
 
 class KrepTest(tk.Frame):
@@ -77,9 +73,7 @@ class KrepTest(tk.Frame):
 		text_frame.grid(row=0, column=0)
 		
 		self.text = tk.Text(
-							text_frame, font=LARGE_FONT, width=25,
-							bg="#F0F0F0", borderwidth=0,
-						   )
+			text_frame, font=LARGE_FONT, width=25,bg="#F0F0F0", borderwidth=0)
 		self.text.grid(row=0, column=0)
 
 		#Insert introduction to the test and set text's properties
@@ -94,14 +88,13 @@ class KrepTest(tk.Frame):
 
 		#startbutton to run test, binded to 'Enter' key
 		self.startbutton = ttk.Button(
-									  self.content_frame, text="Start",
-									  command=lambda: self.one_test()
-									 )
+			self.content_frame, text="Start", command=lambda: self.one_test())
 		self.startbutton.bind("<Return>", lambda f: self.one_test())
 		self.startbutton.grid(row=0, column=0)
 
 
 	def postupdate(self):
+
 
 		"""Method to get focus at the beginning"""
 		self.startbutton.focus()
@@ -109,12 +102,14 @@ class KrepTest(tk.Frame):
 
 	def one_test(self):
 
+
 		#Remove startbutton - no longer needed
 		self.startbutton.grid_forget()
 
-		#Run test units as long as it doesn't reach number of desired, shown
-		#columns
-		if self.controller.krep_counter < self.controller.value_radio_cols.get():
+		#Run test units as long as it doesn't reach number of desired
+		#shown columns
+		if (self.controller.krep_counter
+			< self.controller.value_radio_cols.get()):
 
 			#enable change text in widget, delete, insert newlines
 			#show fixation point and set properties
@@ -130,9 +125,9 @@ class KrepTest(tk.Frame):
 			self.controller.krep_counter += 1
 
 		else:
-
 			self.check_value()
 			self.controller.show_frame("KrepFinish")
+
 
 	def show_column(self):
 
@@ -156,11 +151,9 @@ class KrepTest(tk.Frame):
 		self.start_count()
 
 		self.entryvar = tk.Entry(
-								 self.content_frame, font=SMALL_FONT,
-								 textvariable=self.controller.krep_answer,
-								 justify=tk.CENTER, background="#EEEEEE",
-								 borderwidth=0, insertwidth=1
-								)
+			self.content_frame, font=SMALL_FONT,
+			textvariable=self.controller.krep_answer, justify=tk.CENTER,
+			background="#F0F0F0", borderwidth=0, insertwidth=1)
 
 		#clear entry for putting new value in new column
 		self.entryvar.delete(0, tk.END)
@@ -201,6 +194,7 @@ class KrepTest(tk.Frame):
 
 	def append_entry_answers(self):
 
+
 		"""Store value from self.entryvar in list for later comparison"""
 		self.controller.krep_answer_total.append(int(self.controller.krep_answer.get()))
 
@@ -210,10 +204,10 @@ class KrepTest(tk.Frame):
 
 		"""Core of test - random numbers from 1 to 9 showed in column as a string"""
 		column_str = ""
-		column = [randint(1,9) for num in range(self.controller.value_radio_nums.get())]
+		column = ([randint(1,9) for num in
+			range(self.controller.value_radio_nums.get())])
 		
 		for i, j in enumerate(column):
-		
 			column_str += str(column[i])
 			column_str += "\n"
 
@@ -233,9 +227,7 @@ class KrepTest(tk.Frame):
 				self.controller.krep_good_answ += 1
 
 			else:
-
 				self.controller.krep_bad_answ += 1
-
 
 
 class KrepFinish(tk.Frame):
@@ -253,23 +245,17 @@ class KrepFinish(tk.Frame):
 		text_frame_finish.grid(row=0, column=0)
 
 		self.text_finish = tk.Text(
-								   text_frame_finish, font=LARGE_FONT, width=25,
-								   bg="#F0F0F0", borderwidth=0,
-						   		  )
+			text_frame_finish, font=LARGE_FONT, width=25,bg="#F0F0F0",
+			borderwidth=0)
 		self.text_finish.grid(row=0, column=0)
 		finish_text = 10*'\n'+"Thank you in participating in test. Click 'Next', to go further"
-		self.text_finish.insert(
-						 		'1.0',
-						 		finish_text
-							   )
+		self.text_finish.insert('1.0', finish_text)
 		self.text_finish.tag_configure("center", justify='center')
 		self.text_finish.tag_add("center", "1.0", tk.END)
 		self.text_finish['state'] = 'disabled'
 
 		self.navbutton = ttk.Button(
-									 text_frame_finish, text="Next",
-									 command=lambda: self.navigation()
-									)
+			text_frame_finish, text="Next", command=lambda: self.navigation())
 		self.navbutton.bind("<Return>", lambda f: self.navigation())
 
 		self.navbutton.grid(row=1, column=0)

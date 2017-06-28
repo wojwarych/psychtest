@@ -15,6 +15,7 @@ Choose tests you want to run.
 
 Click "Settings" to change test's properties"""
 
+
 class StartPage(tk.Frame):
 
 
@@ -31,7 +32,8 @@ class StartPage(tk.Frame):
 
 		#mainpicture
 		basepath = os.path.dirname(__file__)
-		imagepath = os.path.abspath(os.path.join(basepath, "..", "img", "brain.png"))
+		imagepath = os.path.abspath(
+			os.path.join(basepath, "..", "img", "brain.png"))
 
 		pic = Image.open(imagepath)
 		on_screen = ImageTk.PhotoImage(pic)
@@ -47,9 +49,8 @@ class StartPage(tk.Frame):
 		description_frame = tk.Frame(content_frame)
 		description_frame.grid(row=0, column=0, padx=25, pady=25, sticky='we')
 		description = tk.Label(
-							   description_frame, text=APP_DESCRIPTION,
-							   font=LARGE_FONT, justify='left'
-							  )
+			description_frame, text=APP_DESCRIPTION,
+			font=LARGE_FONT, justify='left')
 		description.grid(row=0, column=0, sticky='nwse')
 
 		#chekbuttons to choose which tests to run
@@ -57,24 +58,18 @@ class StartPage(tk.Frame):
 		chckbutton_frame.grid(row=1, column=0, padx=25, pady=25, sticky='w')
 
 		chck_krep = tk.Checkbutton(
-								   chckbutton_frame, text="Kraepelin",
-								   variable=self.controller.krep,
-								   font=SMALL_FONT
-								  )
+			chckbutton_frame, text="Kraepelin", variable=self.controller.krep,
+			font=SMALL_FONT)
 		chck_krep.grid(row=1, column=0, sticky='w')
 		
 		chck_stroop = tk.Checkbutton(
-									 chckbutton_frame, text="Stroop Test",
-									 variable=self.controller.stroop,
-									 font=SMALL_FONT
-									)
+			chckbutton_frame, text="Stroop Test",
+			variable=self.controller.stroop, font=SMALL_FONT)
 		chck_stroop.grid(row=2, column=0, sticky='w')
 		
 		chck_rotation = tk.Checkbutton(
-									   chckbutton_frame, font=SMALL_FONT,
-									   text="Mental Rotation Test",
-									   variable=self.controller.rotation,
-									  )
+			chckbutton_frame, font=SMALL_FONT, text="Mental Rotation Test",
+			variable=self.controller.rotation)
 		chck_rotation.grid(row=3, column=0, sticky='w')
 
 		#navigation buttons
@@ -82,17 +77,14 @@ class StartPage(tk.Frame):
 		button_frame.grid(row=2, column=0, padx=20, pady=20, sticky='se')
 
 		self.nxt_button = ttk.Button(
-									 button_frame, text="Next >",
-									 command=lambda:
-									 self.controller.show_frame_handle()
-							   		)
-		self.nxt_button.bind("<Return>", lambda f: self.controller.show_frame_handle())
+			button_frame, text="Next >",
+			command=lambda: self.controller.show_frame_handle())
+		self.nxt_button.bind(
+			"<Return>", lambda f: self.controller.show_frame_handle())
 		self.nxt_button.grid(row=0, column=0, padx=2, sticky='se')
 
 		quit_button = ttk.Button(
-								 button_frame, text="Quit",
-								 command=lambda: quit()
-								)
+			button_frame, text="Quit", command=lambda: quit())
 		quit_button.bind("<q>", lambda f: quit())
 		quit_button.grid(row=0, column=1, padx=2, sticky='se')
 

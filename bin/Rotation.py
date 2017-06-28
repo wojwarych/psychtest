@@ -23,9 +23,8 @@ class Rotation(tk.Frame):
 		self.descrip_frame.grid(row=0, column=0)
 
 		self.descrip_text = tk.Label(
-									 self.descrip_frame, text=ROTATION_INTRO,
-									 font=LARGE_FONT, justify='center'
-									)
+			self.descrip_frame, text=ROTATION_INTRO, font=LARGE_FONT,
+			justify='center')
 		self.descrip_text.grid(row=0, column=0)
 		
 		#Lines underneath - creating additional frames and gridding them in
@@ -34,29 +33,29 @@ class Rotation(tk.Frame):
 		buttonframe.grid(row=1, column=0)
 
 		self.nextbut = ttk.Button(
-								  buttonframe, text="Next",
-								  command=lambda: self.test_handler()
-								 )
+			buttonframe, text="Next", command=lambda: self.test_handler())
 		self.nextbut.grid(row=0, column=0, padx=15, pady=5)
 
 		self.nextbut.bind("<Return>", lambda f: self.test_handler())
 		
 		self.quitbut = ttk.Button(	
-							 buttonframe, text="Quit",
-							 command=lambda: quit()
-							)
+			buttonframe, text="Quit", command=lambda: quit())
 		self.quitbut.grid(row=0, column=1, padx=15, pady=5)
 
 
 	def postupdate(self):
+
+
 		self.nextbut.focus_set()
 
 
 	def test_handler(self):
 
+
 		if self.controller.type_rotation.get() == 'a':
 
 			self.controller.show_frame("RotationLetter")
+
 
 class RotationLetter(tk.Frame):
 
@@ -73,9 +72,8 @@ class RotationLetter(tk.Frame):
 		self.descrip_frame.grid(row=0, column=0)
 
 		self.descrip_text = tk.Label(
-									 self.descrip_frame, text=ROTATION_INTRO,
-									 font=LARGE_FONT, justify='center'
-									)
+			self.descrip_frame, text=ROTATION_INTRO,
+			font=LARGE_FONT, justify='center')
 		self.descrip_text.grid(row=0, column=0)
 		
 		#Lines underneath - creating additional frames and gridding them in
@@ -84,16 +82,14 @@ class RotationLetter(tk.Frame):
 		buttonframe.grid(row=1, column=0)
 
 		self.startbut = ttk.Button(
-								  buttonframe, text="Start",
-								  command=lambda: quit()
-								 )
+			buttonframe, text="Start", command=lambda: quit())
 		self.startbut.grid(row=0, column=0, pady=5)
 
 		self.startbut.bind("<Return>", lambda f: quit())
 
+
 	def postupdate(self):
 		self.startbut.focus_set()
-
 
 
 class RotationFigure(tk.Frame):
@@ -111,9 +107,8 @@ class RotationFigure(tk.Frame):
 		self.descrip_frame.grid(row=0, column=0)
 
 		self.descrip_text = tk.Label(
-									 self.descrip_frame, text=ROTATION_INTRO,
-									 font=LARGE_FONT, justify='center'
-									)
+			self.descrip_frame, text=ROTATION_INTRO, font=LARGE_FONT,
+			justify='center')
 		self.descrip_text.grid(row=0, column=0)
 		
 		#Lines underneath - creating additional frames and gridding them in
@@ -122,16 +117,14 @@ class RotationFigure(tk.Frame):
 		buttonframe.grid(row=1, column=0)
 
 		self.startbut = ttk.Button(
-								  buttonframe, text="Start",
-								  command=lambda: quit()
-								 )
+			buttonframe, text="Start", command=lambda: quit())
 		self.startbut.grid(row=0, column=0, pady=5)
 
 		self.startbut.bind("<Return>", lambda f: quit())
 
+
 	def postupdate(self):
 		self.startbut.focus_set()
-
 
 
 class RotationImage(tk.Frame):
@@ -149,9 +142,8 @@ class RotationImage(tk.Frame):
 		self.descrip_frame.grid(row=0, column=0)
 
 		self.descrip_text = tk.Label(
-									 self.descrip_frame, text=ROTATION_INTRO,
-									 font=LARGE_FONT, justify='center'
-									)
+			self.descrip_frame, text=ROTATION_INTRO, font=LARGE_FONT,
+			justify='center')
 		self.descrip_text.grid(row=0, column=0)
 		
 		#Lines underneath - creating additional frames and gridding them in
@@ -160,12 +152,11 @@ class RotationImage(tk.Frame):
 		buttonframe.grid(row=1, column=0)
 
 		self.startbut = ttk.Button(
-								  buttonframe, text="Start",
-								  command=lambda: quit()
-								 )
+			buttonframe, text="Start", command=lambda: quit())
 		self.startbut.grid(row=0, column=0, pady=5)
 
 		self.startbut.bind("<Return>", lambda f: quit())
+
 
 	def postupdate(self):
 		self.startbut.focus_set()

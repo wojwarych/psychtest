@@ -14,7 +14,6 @@ STROOP_NUMBERS = "You have to choose wether size\nAND value of number is bigger 
 STROOP_FIGURAL = "Choose wether the figure is made of the same words\nas the figure."
 
 
-
 class Stroop(tk.Frame):
 
 
@@ -34,9 +33,8 @@ class Stroop(tk.Frame):
 
 		#description label
 		descrip_lab = tk.Label(
-							   self.descrip_frame, text="STROOP TEST",
-							   font=LARGE_FONT, justify='center'
-							  )
+			self.descrip_frame, text="STROOP TEST",
+			font=LARGE_FONT, justify='center')
 		descrip_lab.grid(row=0, column=0)
 		
 		#navigation buttons
@@ -44,21 +42,19 @@ class Stroop(tk.Frame):
 		buttonframe.grid(row=1, column=0)
 
 		self.nextbut = ttk.Button(
-							 	  buttonframe, text="Next >",
-							 	  command=lambda: self.navigate_stroop()
-								 )
+			buttonframe, text="Next >",
+			command=lambda: self.navigate_stroop())
 		self.nextbut.bind("<Return>", lambda f: self.navigate_stroop())
 		self.nextbut.grid(row=0, column=0, padx=15, pady=5)
 
 		self.quitbut = ttk.Button(
-							 	  buttonframe, text="Quit",
-							 	  command=lambda: quit()
-								 )
+			buttonframe, text="Quit", command=lambda: quit())
 		self.quitbut.bind("<q>", lambda f: quit())
 		self.quitbut.grid(row=0, column=1, padx=15, pady=5)
 
 
 	def postupdate(self):
+
 
 		self.nextbut.focus()
 
@@ -67,15 +63,12 @@ class Stroop(tk.Frame):
 
 
 		if self.controller.mode_stroop.get() == 'classic':
-
 			self.controller.show_frame("StroopColor")
 
 		elif self.controller.mode_stroop.get() == 'numbers':
-
 			self.controller.show_frame("StroopNumber")
 
 		else:
-
 			self.controller.show_frame("StroopFigural")
 
 
@@ -101,9 +94,8 @@ class StroopColor(tk.Frame):
 
 		#description label
 		descrip_lab = tk.Label(
-							   self.descrip_frame, text=STROOP_COLOR,
-							   font=LARGE_FONT, justify='center'
-							  )
+			self.descrip_frame, text=STROOP_COLOR,
+			font=LARGE_FONT, justify='center')
 		descrip_lab.grid(row=0, column=0)
 		
 		#navigation buttons
@@ -111,16 +103,13 @@ class StroopColor(tk.Frame):
 		self.buttonframe.grid(row=1, column=0)
 
 		self.nextbut = ttk.Button(
-							 	  self.buttonframe, text="Next >",
-							 	  command=lambda: self.test_window()
-								 )
+			self.buttonframe, text="Next >",
+			command=lambda: self.test_window())
 		self.nextbut.bind("<Return>", lambda f: self.test_window())
 		self.nextbut.grid(row=0, column=0, padx=15, pady=5)
 
 		self.quitbut = ttk.Button(
-							 	  self.buttonframe, text="Quit",
-							 	  command=lambda: quit()
-								 )
+			self.buttonframe, text="Quit", command=lambda: quit())
 		self.quitbut.bind("<q>", lambda f: quit())
 		self.quitbut.grid(row=0, column=1, padx=15, pady=5)
 
@@ -144,9 +133,8 @@ class StroopColor(tk.Frame):
 		text_color_frame.grid(row=0, column=0)
 
 		self.text_color = tk.Text(
-								  text_color_frame, font=LARGE_FONT, width=25,
-								  bg="#F0F0F0", borderwidth=0
-								 )
+			text_color_frame, font=LARGE_FONT, width=25, bg="#F0F0F0",
+			borderwidth=0)
 		self.text_color.grid(row=0, column=0)
 
 		#starting experiment
@@ -158,9 +146,7 @@ class StroopColor(tk.Frame):
 		self.text_color['state'] = 'disabled'
 
 		self.nav_button = ttk.Button(
-									 text_color_frame, text="Start",
-									 command=lambda: self.color_test()
-									)
+			text_color_frame, text="Start", command=lambda: self.color_test())
 		self.nav_button.grid(row=1, column=0)
 		self.nav_button.bind("<Return>", lambda f: self.color_test())
 		self.nav_button.focus_set()
@@ -177,7 +163,6 @@ class StroopColor(tk.Frame):
 		self.text_color.tag_configure('fix_big', font=self.fixation_font)
 
 		if self.controller.counter < the_number:
-
 			#delete previous text from widget
 			self.text_color['state'] = 'normal'
 			
@@ -196,7 +181,6 @@ class StroopColor(tk.Frame):
 			self.controller.counter += 1
 
 		else:
-		
 			self.controller.show_frame("Summary")
 
 
@@ -229,8 +213,8 @@ class StroopColor(tk.Frame):
 
 		#colours and words to choose from
 		colour = {
-				  'blue':'#0f52ba', 'green':'#92c544',
-				  'yellow':'#fec611', 'red':'#d41c1c'
+				  'blue':'#0f52ba', 'green':'#92c544', 'yellow':'#fec611',
+				  'red':'#d41c1c'
 				 }
 		string_type = ['blue', 'green', 'yellow', 'red']
 
@@ -243,9 +227,7 @@ class StroopColor(tk.Frame):
 		#bigger font in self.text_color for words themselves
 		self.word_font = Font(family='Verdana', size=12, weight='bold')
 		self.text_color.tag_configure(
-									  'COLOR', foreground=self.the_colour,
-									  font=self.word_font
-									 )
+			'COLOR', foreground=self.the_colour, font=self.word_font)
 
 
 	def arrow_left(self):
@@ -254,11 +236,9 @@ class StroopColor(tk.Frame):
 		#if color and meaning is congruent and
 		#user pressed arrow left -> good answer; else - bad answer
 		if self.the_string == self.check:
-
 			self.controller.stroop_good_answ += 1
 
 		else:
-
 			self.controller.stroop_bad_answ += 1
 
 		#return to function, to delete word and create fixation point again
@@ -267,48 +247,50 @@ class StroopColor(tk.Frame):
 
 	def arrow_right(self):
 
+
 		#if color and meaning is not congruent and
 		#user pressed arrown right -> good answer; else - bad answer
 		if self.the_string != self.check:
-
 			self.controller.stroop_good_answ += 1
 
 		else:
-
 			self.controller.stroop_bad_answ += 1
 
 		#return to function, to delete word and create fixation point again
 		self.stop_count()
 
+
 	def start_count(self):
 
+
 		self.controller.stroop_start_time = time.time()
+
 
 	def stop_count(self):
 
 
 		if self.the_string == self.check:
+			self.controller.stroop_finish_time = (round(time.time()
+				- self.controller.stroop_start_time, 4))
 
-			self.controller.stroop_finish_time = (round(time.time() -
-				self.controller.stroop_start_time, 4))
+			self.controller.stroop_time_stamps.append(
+				self.controller.stroop_finish_time)
 
-			self.controller.stroop_time_stamps.append(self.controller.stroop_finish_time)
-
-			self.controller.stroop_time_stamps_cong.append(self.controller.stroop_finish_time)
+			self.controller.stroop_time_stamps_cong.append(
+				self.controller.stroop_finish_time)
 
 		else:
-
-			self.controller.stroop_finish_time = (round(time.time() -
-				self.controller.stroop_start_time, 4))
+			self.controller.stroop_finish_time = (round(time.time()
+				- self.controller.stroop_start_time, 4))
 			
-			self.controller.stroop_time_stamps.append(self.controller.stroop_finish_time)
+			self.controller.stroop_time_stamps.append(
+				self.controller.stroop_finish_time)
 			
-			self.controller.stroop_time_stamps_noncong.append(self.controller.stroop_finish_time)
-
+			self.controller.stroop_time_stamps_noncong.append(
+				self.controller.stroop_finish_time)
 
 		#back to body of function
 		self.color_test()
-
 
 
 class StroopNumber(tk.Frame):
@@ -334,9 +316,8 @@ class StroopNumber(tk.Frame):
 
 		#description label
 		descrip_lab = tk.Label(
-							   self.descrip_frame, text=STROOP_NUMBERS,
-							   font=LARGE_FONT, justify='center'
-							  )
+			self.descrip_frame, text=STROOP_NUMBERS, font=LARGE_FONT,
+			justify='center')
 		descrip_lab.grid(row=0, column=0)
 		
 		#navigation buttons
@@ -344,16 +325,13 @@ class StroopNumber(tk.Frame):
 		self.buttonframe.grid(row=1, column=0)
 
 		self.nextbut = ttk.Button(
-							 	  self.buttonframe, text="Next >",
-							 	  command=lambda: self.test_window()
-								 )
+			self.buttonframe, text="Next >",
+			command=lambda: self.test_window())
 		self.nextbut.bind("<Return>", lambda f: self.test_window())
 		self.nextbut.grid(row=0, column=0, padx=15, pady=5)
 
 		self.quitbut = ttk.Button(
-							 	  self.buttonframe, text="Quit",
-							 	  command=lambda: quit()
-								 )
+			self.buttonframe, text="Quit",  command=lambda: quit())
 		self.quitbut.bind("<q>", lambda f: quit())
 		self.quitbut.grid(row=0, column=1, padx=15, pady=5)
 
@@ -376,9 +354,8 @@ class StroopNumber(tk.Frame):
 		number_frame.grid(row=0, column=0)
 
 		self.numbers = tk.Text(
-							   number_frame, font=LARGE_FONT, width=25,
-							   bg="#F0F0F0", borderwidth=0
-							  )
+			number_frame, font=LARGE_FONT, width=25, bg="#F0F0F0",
+			borderwidth=0)
 		self.numbers.grid(row=0, column=0)
 
 		#starting experiment
@@ -390,9 +367,7 @@ class StroopNumber(tk.Frame):
 		self.numbers['state'] = 'disabled'
 
 		self.nav_button = ttk.Button(
-									 number_frame, text="Start",
-									 command=lambda: self.numbers_test()
-									)
+			number_frame, text="Start", command=lambda: self.numbers_test())
 		self.nav_button.grid(row=1, column=0)
 		self.nav_button.bind("<Return>", lambda f: self.numbers_test())
 		self.nav_button.focus_set()
@@ -409,11 +384,9 @@ class StroopNumber(tk.Frame):
 		self.numbers.tag_configure('fix_big', font=self.fixation_font)
 
 		if self.controller.counter < the_number:
-
 			#delete previous text from widget
 			self.numbers['state'] = 'normal'
 			
-
 			self.numbers.delete('1.0', tk.END)
 			self.numbers.insert('1.0', 6*"\n"+"+")
 			
@@ -429,7 +402,6 @@ class StroopNumber(tk.Frame):
 			self.controller.counter += 1
 
 		else:
-
 			self.controller.show_frame("Summary")
 
 
@@ -483,14 +455,8 @@ class StroopNumber(tk.Frame):
 		first_font = Font(family='Verdana', size=self.sizes[0])
 		second_font = Font(family='Verdana', size=self.sizes[1])
 
-		self.numbers.tag_configure(
-								   'first_font',
-								   font=first_font
-								  )
-		self.numbers.tag_configure(
-								   'second_font',
-								   font=second_font
-								  )
+		self.numbers.tag_configure('first_font', font=first_font)
+		self.numbers.tag_configure('second_font', font=second_font)
 
 
 	def arrow_left(self):
@@ -501,7 +467,7 @@ class StroopNumber(tk.Frame):
 
 		if ((self.first_num > self.second_num and self.sizes[0] > self.sizes[1]
 		or self.first_num < self.second_num and self.sizes[0] < self.sizes[1])):
-
+			
 			self.controller.stroop_good_answ += 1
 
 		else:
@@ -533,6 +499,7 @@ class StroopNumber(tk.Frame):
 
 	def start_count(self):
 
+
 		#start counting time when numbers are shown
 		self.controller.stroop_start_time = time.time()
 
@@ -545,30 +512,35 @@ class StroopNumber(tk.Frame):
 		if ((self.first_num > self.second_num and self.sizes[0] > self.sizes[1])
 		or (self.first_num < self.second_num and self.sizes[0] < self.sizes[1])):
 
-			self.controller.stroop_finish_time = (round(time.time() -
-					self.controller.stroop_start_time, 4))
+			self.controller.stroop_finish_time = (round(time.time()
+				- self.controller.stroop_start_time, 4))
 
-			self.controller.stroop_time_stamps.append(self.controller.stroop_finish_time)
+			self.controller.stroop_time_stamps.append(
+				self.controller.stroop_finish_time)
 
-			self.controller.stroop_time_stamps_cong.append(self.controller.stroop_finish_time)
+			self.controller.stroop_time_stamps_cong.append(
+				self.controller.stroop_finish_time)
 
 		else:
 
-			self.controller.stroop_finish_time = (round(time.time() -
-					self.controller.stroop_start_time, 4))
+			self.controller.stroop_finish_time = (round(time.time()
+				- self.controller.stroop_start_time, 4))
 
-			self.controller.stroop_time_stamps.append(self.controller.stroop_finish_time)
+			self.controller.stroop_time_stamps.append(
+				self.controller.stroop_finish_time)
 
-			self.controller.stroop_time_stamps_noncong.append(self.controller.stroop_finish_time)
+			self.controller.stroop_time_stamps_noncong.append(
+				self.controller.stroop_finish_time)
 
 		#back to the body of test
 		self.numbers_test()
 
 
-
 class StroopFigural(tk.Frame):
 
+
 	def __init__(self, parent, controller):
+
 
 		tk.Frame.__init__(self, parent)
 		self.controller = controller
@@ -587,9 +559,8 @@ class StroopFigural(tk.Frame):
 
 		#description label
 		descrip_lab = tk.Label(
-							   self.descrip_frame, text=STROOP_FIGURAL,
-							   font=LARGE_FONT, justify='center'
-							  )
+			self.descrip_frame, text=STROOP_FIGURAL, font=LARGE_FONT,
+			justify='center')
 		descrip_lab.grid(row=0, column=0)
 		
 		#navigation buttons
@@ -597,15 +568,12 @@ class StroopFigural(tk.Frame):
 		self.buttonframe.grid(row=1, column=0)
 
 		self.nextbut = ttk.Button(
-							 	  self.buttonframe, text="Next >",
-							 	  command=lambda: self.test_window()
-								 )
+			self.buttonframe, text="Next >",
+			command=lambda: self.test_window())
 		self.nextbut.bind("<Return>", lambda f: self.test_window())
 		self.nextbut.grid(row=0, column=0, padx=15, pady=5)
 
 		self.quitbut = ttk.Button(
-							 	  self.buttonframe, text="Quit",
-							 	  command=lambda: quit()
-								 )
+			self.buttonframe, text="Quit", command=lambda: quit())
 		self.quitbut.bind("<q>", lambda f: quit())
 		self.quitbut.grid(row=0, column=1, padx=15, pady=5)

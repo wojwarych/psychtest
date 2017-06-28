@@ -3,12 +3,11 @@ from tkinter import ttk
 
 import os.path
 
-from Kraepelin import Kraepelin, KrepTest, KrepFinish
-from StartPage import StartPage
-from Stroop import Stroop, StroopColor, StroopNumber, StroopFigural
-from Rotation import Rotation, RotationLetter, RotationFigure, RotationImage
-from Summary import Summary
-
+from kraepelin import Kraepelin, KrepTest, KrepFinish
+from start_page import StartPage
+from stroop import Stroop, StroopColor, StroopNumber, StroopFigural
+from rotation import Rotation, RotationLetter, RotationFigure, RotationImage
+from summary import Summary
 
 #constans
 NORMAL_FONT = ("Verdana", 10)
@@ -21,16 +20,18 @@ Choose tests you want to run.
 Click "Settings" to change test's properties"""
 
 
-
 class PsychTest(tk.Tk):
 
+
 	def __init__(self, *args, **kwargs):
+
 
 		tk.Tk.__init__(self, *args, **kwargs)
 
 		#setting the name and logo of window
 		basepath = os.path.dirname(__file__)
-		imagepath = os.path.abspath(os.path.join(basepath, "..", "img", "brain_icon.ico")) 
+		imagepath = os.path.abspath(os.path.join(basepath, "..", "img",
+			"brain_icon.ico"))
 
 		tk.Tk.wm_title(self, "PsychTest")
 		tk.Tk.iconbitmap(self, default=imagepath)
@@ -41,15 +42,14 @@ class PsychTest(tk.Tk):
 		container.grid_rowconfigure(0, weight=1)
 		container.grid_columnconfigure(0, weight=1)
 
-		#Adding menubar with cascade for settings and pop-up 'About' window
+		#Adding menubar with cascade for settings and 'About' window
 		menubar = tk.Menu(container)
 
 		#settings option in menu cascade
 		mainmenu = tk.Menu(menubar, tearoff=0)
 		mainmenu.add_command(
-							 label="Settings",
-							 command=lambda: self.showSettings()
-							)
+			label="Settings",
+			command=lambda: self.showSettings())
 		mainmenu.add_separator()
 
 		#exit option in menu cascade
@@ -60,9 +60,8 @@ class PsychTest(tk.Tk):
 		
 		#about cascade
 		menubar.add_command(
-							label="About",
-							command=lambda: self.show_about(ABOUT_DESCRIPTION)
-						   )
+			label="About",
+			command=lambda: self.show_about(ABOUT_DESCRIPTION))
 		
 		tk.Tk.config(self, menu=menubar)
 
@@ -104,10 +103,6 @@ class PsychTest(tk.Tk):
 
 		self.type_rotation = tk.StringVar()
 		self.type_rotation.set('a')
-
-		#Variables for tests' purposes
-
-
 
 		#Pack the other windows, as a classes, in a stack; they are children of 'container' frame
 		self.frames = {}
@@ -153,7 +148,9 @@ class PsychTest(tk.Tk):
 
 		self.show_frame("StartPage")
 
+
 	def show_frame(self, cont):
+
 
 		"""Method to pop-up selected frame"""
 		frame, geometry = self.frames[cont]
@@ -165,7 +162,9 @@ class PsychTest(tk.Tk):
 		except AttributeError:
 			pass
 
+
 	def show_frame_handle(self):
+
 
 		"""Method to choose proper starting experiment by program"""
 		if self.krep.get() == 1:
@@ -176,13 +175,15 @@ class PsychTest(tk.Tk):
 			
 			self.show_frame("Stroop")
 		
-		elif (self.rotation.get() == 1) & (self.krep.get() == 0 & self.stroop.get() == 0):
+		elif ((self.rotation.get() == 1) &
+			(self.krep.get() == 0 & self.stroop.get() == 0)):
 			
 			self.show_frame("Rotation")
 		
 
 	@staticmethod
 	def show_about(msg):
+
 
 		"""Show separate 'about' window, where you can get more info about project"""
 
@@ -198,9 +199,8 @@ class PsychTest(tk.Tk):
 		about_label.pack(side="top", fill='x', pady=10)
 
 		about_button = ttk.Button(
-								  about_frame, text="Ok",
-								  command=about_frame.destroy
-								 )
+			about_frame, text="Ok",
+			command=about_frame.destroy)
 		about_button.pack()
 		
 		#Get rid of minimize and maximize button
@@ -214,6 +214,7 @@ class PsychTest(tk.Tk):
 
 
 	def showSettings(self):
+
 	
 		"""Separate window to tweak settings of tests"""
 
@@ -234,16 +235,14 @@ class PsychTest(tk.Tk):
 
 		#title of test
 		krep_name = ttk.Label(
-							  krep_frame, font=SMALL_FONT,
-							  text="KRAEPELIN TEST"
-							 )
+			krep_frame, font=SMALL_FONT,
+			text="KRAEPELIN TEST")
 		krep_name.grid(row=0, column=0)
 
 		#change number of columns
 		krep_option1 = ttk.Label(
-								 krep_frame, font=SMALL_FONT,
-								 text="Number of columns:",
-								)
+			krep_frame, font=SMALL_FONT,
+			text="Number of columns:")
 		krep_option1.grid(row=1, column=0)
 
 		#frame for radiobutton with options + for variable keeping track
@@ -261,19 +260,13 @@ class PsychTest(tk.Tk):
 							]
 		for text, mode in possible_num_cols:
 			num_cols = ttk.Radiobutton(
-									   cols_krep_grid, text=text,
-									   variable=self.value_radio_cols,
-									   value=mode,
-									   command=lambda:
-									   self.value_radio_cols.get()
-									  )
+				cols_krep_grid, text=text, variable=self.value_radio_cols,
+				value=mode, command=lambda: self.value_radio_cols.get())
 			num_cols.pack(side='left')
 
 		#change number of digits
 		krep_option2 = ttk.Label(
-								 krep_frame, font=SMALL_FONT,
-								 text="Digits in column:"
-								)
+			krep_frame, font=SMALL_FONT, text="Digits in column:")
 		krep_option2.grid(row=3, column=0)
 
 		#frame for radiobutton with options + var keeping track
@@ -291,12 +284,8 @@ class PsychTest(tk.Tk):
 						  ]
 		for text, mode in possible_digits:
 			num_numbers = ttk.Radiobutton(
-									   	  cols_krep_grid2, text=text,
-									   	  variable=self.value_radio_nums,
-									   	  value=mode,
-									   	  command=lambda:
-									   	  self.value_radio_nums.get()
-										 )
+				cols_krep_grid2, text=text, variable=self.value_radio_nums,
+				value=mode, command=lambda: self.value_radio_nums.get())
 			num_numbers.pack(side='left')
 
 
@@ -306,16 +295,12 @@ class PsychTest(tk.Tk):
 
 		#title of test
 		stroop_name = ttk.Label(
-								stroop_frame, font=SMALL_FONT,
-								text="STROOP TEST",
-							   )
+			stroop_frame, font=SMALL_FONT, text="STROOP TEST")
 		stroop_name.grid(row=0, column=0)
 
 		#title of option
 		stroop_option1 = ttk.Label(
-								   stroop_frame, font=SMALL_FONT,
-								   text="Version of test:",
-								  )
+			stroop_frame, font=SMALL_FONT, text="Version of test:")
 		stroop_option1.grid(row=1, column=0)
 
 		#frame for radiobutton of options + var for keeping track
@@ -334,12 +319,8 @@ class PsychTest(tk.Tk):
 							]
 		for text, mode in possible_versions:
 			version_stroop = ttk.Radiobutton(
-											 version_stroop_grid, text=text,
-											 variable=self.mode_stroop,
-											 value=mode,
-											 command=lambda:
-											 self.mode_stroop.get()
-											)
+				version_stroop_grid, text=text, variable=self.mode_stroop,
+				value=mode, command=lambda: self.mode_stroop.get())
 			version_stroop.pack(anchor='w')
 
 		#frame for mental rotation
@@ -348,16 +329,12 @@ class PsychTest(tk.Tk):
 
 		#title of test
 		rotation_name = ttk.Label(
-								  rotation_frame, font=SMALL_FONT,
-								  text="MENTAL ROTATION:"
-								 )
+			rotation_frame, font=SMALL_FONT, text="MENTAL ROTATION:")
 		rotation_name.grid(row=0, column=0)
 
 		#title of test's option
 		rotation_option1 = ttk.Label(
-									 rotation_frame, font=SMALL_FONT,
-									 text="Type of test:"
-									)
+			rotation_frame, font=SMALL_FONT, text="Type of test:")
 		rotation_option1.grid(row=1, column=0)
 
 		#frame for radiobutton of versions + var for keeping track
@@ -374,12 +351,8 @@ class PsychTest(tk.Tk):
 						 ]
 		for text, mode in possible_types:
 			version_rotation = ttk.Radiobutton(
-											   type_rotation_grid, text=text,
-											   variable=self.type_rotation,
-											   value=mode,
-											   command=lambda:
-											   self.type_rotation.get()
-											  )
+				type_rotation_grid, text=text, variable=self.type_rotation,
+				value=mode, command=lambda: self.type_rotation.get())
 			version_rotation.pack(anchor='w')
 
 ##############################################################################
