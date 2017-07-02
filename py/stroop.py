@@ -161,7 +161,7 @@ class StroopColor(tk.Frame):
 		self.fixation_font = Font(family='Verdana', size=18)
 		self.text_color.tag_configure('fix_big', font=self.fixation_font)
 
-		if self.controller.counter < the_number:
+		if self.controller.stroop_counter < the_number:
 			#delete previous text from widget
 			self.text_color['state'] = 'normal'
 			
@@ -177,7 +177,7 @@ class StroopColor(tk.Frame):
 			#show after 3 secs coloured word
 			self.text_color.after(3000, self.random_word)
 
-			self.controller.counter += 1
+			self.controller.stroop_counter += 1
 
 		else:
 			self.controller.show_frame("Summary")
@@ -385,7 +385,7 @@ class StroopNumber(tk.Frame):
 		self.fixation_font = Font(family='Verdana', size=18)
 		self.numbers.tag_configure('fix_big', font=self.fixation_font)
 
-		if self.controller.counter < the_number:
+		if self.controller.stroop_counter < the_number:
 			#delete previous text from widget
 			self.numbers['state'] = 'normal'
 			
@@ -401,7 +401,7 @@ class StroopNumber(tk.Frame):
 			#show after 3 secs coloured word
 			self.numbers.after(3000, self.random_num)
 
-			self.controller.counter += 1
+			self.controller.stroop_counter += 1
 
 		else:
 			self.controller.show_frame("Summary")

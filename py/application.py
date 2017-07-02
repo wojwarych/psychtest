@@ -82,7 +82,7 @@ class PsychTest(tk.Tk):
 		self.krep_time_finish = float()
 
 		#STROOP MODULE VARS
-		self.counter = 0
+		self.stroop_counter = 0
 		self.stroop_good_answ = 0
 		self.stroop_bad_answ = 0
 		self.stroop_start_time = float()
@@ -90,6 +90,9 @@ class PsychTest(tk.Tk):
 		self.stroop_time_stamps = []
 		self.stroop_time_stamps_cong = []
 		self.stroop_time_stamps_noncong = []
+
+		#ROTATION MODULE VARS
+		self.rot_counter = 0
 
 		#default options of tests
 		self.value_radio_cols = tk.IntVar()
