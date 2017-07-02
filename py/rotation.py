@@ -141,7 +141,7 @@ class RotationLetter(tk.Frame):
 	def pick_letters(self):
 
 		basepath = os.path.dirname(__file__)
-		imagepath = os.path.abspath(
+		imageakpath = os.path.abspath(
 		os.path.join(basepath, "..", "img", "F.png"))
 		pic = Image.open(imagepath)
 		on_screen = ImageTk.PhotoImage(pic)
