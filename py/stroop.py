@@ -270,6 +270,9 @@ class StroopColor(tk.Frame):
 
 	def stop_count(self):
 
+		"""Stop counting time after user's click"""
+
+		#store time to list - congruent or not - and to common list
 
 		if self.the_string == self.check:
 			self.controller.stroop_finish_time = (round(time.time()
@@ -316,7 +319,7 @@ class StroopNumber(tk.Frame):
 		self.descrip_frame = tk.Frame(self)
 		self.descrip_frame.grid(row=0, column=0)
 
-		#description label
+		#label for description of test
 		descrip_lab = tk.Label(
 			self.descrip_frame, text=STROOP_NUMBERS, font=LARGE_FONT,
 			justify='center')
@@ -340,7 +343,7 @@ class StroopNumber(tk.Frame):
 
 	def postupdate(self):
 
-
+		"""Get starting focus for this experiment"""
 		self.nextbut.focus()
 
 
@@ -386,6 +389,7 @@ class StroopNumber(tk.Frame):
 		self.numbers.tag_configure('fix_big', font=self.fixation_font)
 
 		if self.controller.stroop_counter < the_number:
+
 			#delete previous text from widget
 			self.numbers['state'] = 'normal'
 			
@@ -404,6 +408,8 @@ class StroopNumber(tk.Frame):
 			self.controller.stroop_counter += 1
 
 		else:
+
+			#end experiment
 			self.controller.show_frame("Summary")
 
 
@@ -466,7 +472,7 @@ class StroopNumber(tk.Frame):
 
 
 		#if number values and sizes are congruent and
-		#user pressed arrow up -> good answer; else: wrong
+		#user pressed arrow left -> good answer; else: wrong
 
 		if ((self.first_num > self.second_num
 			and self.sizes[0] > self.sizes[1]
@@ -516,7 +522,8 @@ class StroopNumber(tk.Frame):
 	def stop_count(self):
 
 
-		#stop counting time (between showing the numbers and user's decision)
+		#stop counting time after user's choice
+		#add time to proper lists (depending on congruency)
 
 		if ((self.first_num > self.second_num
 			and self.sizes[0] > self.sizes[1])
@@ -533,6 +540,7 @@ class StroopNumber(tk.Frame):
 				self.controller.stroop_finish_time)
 
 		else:
+
 			self.controller.stroop_finish_time = (round(time.time()
 				- self.controller.stroop_start_time, 4))
 
@@ -545,7 +553,7 @@ class StroopNumber(tk.Frame):
 		#back to the body of test
 		self.numbers_test()
 
-
+#TODO: functionalities for StroopFigural
 class StroopFigural(tk.Frame):
 
 
