@@ -2,8 +2,9 @@ import tkinter as tk
 from tkinter import ttk
 
 import os.path
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk, ImageOps
 import random
+import time
 
 SUPER_LARGE = ("Verdana", 16)
 LARGE_FONT = ("Verdana", 11)
@@ -16,11 +17,11 @@ One of them will be shown normally, the other one
 might be rotated and flipped vertically
 (reflection symmetry). Your task is to decide if those letters
 are the same (are not flipped vertically) or are different."""
+ROTATION_ANIM = """THIS TEST TEXT"""
 
 
 class Rotation(tk.Frame):
 
-#TODO: NAVIGATION, DESCRIPTION, STROOPTEST CLASS FOR TEST ITSELF
 
 	def __init__(self, parent, controller):
 
@@ -49,13 +50,18 @@ class Rotation(tk.Frame):
 
 		self.nextbut.bind("<Return>", lambda f: self.test_handler())
 		
-		self.quitbut = ttk.Button(	
-			buttonframe, text="Quit", command=lambda: quit())
-		self.quitbut.grid(row=0, column=1, padx=15, pady=5)
+		self.returnbut = ttk.Button(buttonframe, text="Return",
+			command=lambda: self.controller.show_frame("StartPage"))
+		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
+
+		self.returnbut.bind("<Return>",
+			lambda f: self.controller.show_frame("StartPage"), "+")
 
 
 	def postupdate(self):
 
+
+		"""Get starting focus in module"""
 
 		self.nextbut.focus_set()
 
@@ -63,14 +69,23 @@ class Rotation(tk.Frame):
 	def test_handler(self):
 
 
-		if self.controller.type_rotation.get() == 'a':
+		"""Navigate through different types of experiment"""
+
+		if self.controller.type_rotation.get() == 'letters':
 
 			self.controller.show_frame("RotationLetter")
 
+		elif self.controller.type_rotation.get() == 'animal':
+
+			self.controller.show_frame("RotationAnimal")
+
+		elif self.controller.type_rotation.get() == 'figure':
+
+			self.controller.show_frame("RotationFigure")
 
 class RotationLetter(tk.Frame):
 
-#TODO: ROTATION OF IMAGE ONE
+#TODO: STORE ANSWERS FOR THE EACH ANGLE
 
 	def __init__(self, parent, controller):
 
@@ -79,7 +94,14 @@ class RotationLetter(tk.Frame):
 		self.controller = controller
 		self.grid_rowconfigure(0, weight=2, minsize=317)
 		self.grid_columnconfigure(0, minsize=475)
+		self.create_widgets()
 
+
+	def create_widgets(self):
+		
+
+		#widgets in this module has to be separated from __init__
+		#for navigation purposes
 		self.descrip_frame = tk.Frame(self)
 		self.descrip_frame.grid(row=0, column=0)
 
@@ -88,16 +110,24 @@ class RotationLetter(tk.Frame):
 			font=NORMAL_FONT, justify='center')
 		self.descrip_text.grid(row=0, column=0)
 		
-		#Lines underneath - creating additional frames
-		#and gridding them in order to properly set the widgets
+		#create widgets to navigate through this experiment
+		#bind actions
 		buttonframe = tk.Frame(self)
 		buttonframe.grid(row=1, column=0)
 
-		self.startbut = ttk.Button(
-			buttonframe, text="Start", command=lambda: self.start_window())
-		self.startbut.grid(row=0, column=0, pady=5)
+		self.startbut = ttk.Button(buttonframe, text="Start",
+			command=lambda: self.start_window())
+		self.startbut.grid(row=0, column=0, padx=15, pady=5)
 
 		self.startbut.bind("<Return>", lambda f: self.start_window())
+		self.startbut.focus_set()
+
+		self.returnbut = ttk.Button(buttonframe, text="Return",
+			command=lambda: self.controller.show_frame("Rotation"))
+		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
+
+		self.returnbut.bind("<Return>",
+			lambda f: self.controller.show_frame("Rotation"), "+")
 
 		self.generate_image()
 
@@ -105,18 +135,22 @@ class RotationLetter(tk.Frame):
 	def postupdate(self):
 
 
+		"""Get focus for the first button"""
+
 		self.startbut.focus_set()
 
 
 	def start_window(self):
 
+
+		"""Prepare window for the test"""
 		
 		#remove description of test and nav buttons from view
 		self.descrip_text.grid_remove()
 
 		#starting experiment
 		self.start_test = tk.Label(
-			self.descrip_frame, text="Click Enter to start the test",
+			self.descrip_frame, text="Click 'Enter' to start the test",
 			font=LARGE_FONT, justify='center')
 		self.start_test.grid(row=0, column=0)
 			
@@ -124,33 +158,91 @@ class RotationLetter(tk.Frame):
 		self.startbut.bind("<Return>", lambda f: self.test_window())
 		self.startbut.focus_set()
 
+		self.returnbut['command'] = lambda: self.create_widgets()
+		self.returnbut.bind("<Return>", lambda f: self.create_widgets())
+
 
 	def test_window(self, the_number=5):
 
+
+		"""Body of experiment"""
+
+		#remove useless widgets
 		self.start_test.grid_remove()
 		self.startbut.grid_remove()
+		self.returnbut.grid_remove()
 		
 		if self.controller.rot_counter < the_number:
 
+			#create fixation point
 			self.fix_point = tk.Label(
 				self.descrip_frame, text="+", font=SUPER_LARGE, justify='center')
 			self.fix_point.grid(row=0, column=0)
+
+			#remove fix point after 3 secs and show letters
 			self.fix_point.after(3000, self.pick_letters)
 
 			self.controller.rot_counter += 1
 
 		else:
+
+			#merged dict for summary purposes
+			self.merge_dicts()
 			self.controller.show_frame("Summary")
+
+
+	def arrow_left(self):
+
+		
+		"""Stores the answer if user clicked left arrow key"""
+		
+		self.stop_count()
+		self.collect_answers()
+
+		if self.made_decision == 1:
+
+			self.controller.rot_good_answ += 1
+
+		else:
+
+			self.controller.rot_bad_answ += 1
+
+		self.clear_window()
+
+
+	def arrow_right(self):
+
+
+		"""Stores the answer if user clicked right arrow key"""
+
+		self.stop_count()
+		self.collect_answers()
+
+		if self.made_decision == 0:
+
+			self.controller.rot_good_answ += 1
+
+		else:
+
+			self.controller.rot_bad_answ += 1
+
+		self.clear_window()
 
 
 	def clear_window(self):
 
+
+		"""Remove previous images and go back to body of experiment"""
+
 		self.descrip_text.grid_remove()
 		self.descrip_text2.grid_remove()
-
 		self.test_window()
 
+
 	def dict_of_letters(self):
+
+
+		"""Create dict of paths to images of letters"""
 
 		letters = ('F', 'G', 'J')
 		self.dict_letters = {}
@@ -166,83 +258,174 @@ class RotationLetter(tk.Frame):
 	
 	def pick_random_letter(self):
 
+
+		""""Choice random letter from created dict"""
+
 		self.dict_of_letters()		
 		self.random_letter = random.choice(list(self.dict_letters.values()))
 
 
 	def generate_image(self):
 
+
+		"""Create image to work on"""
+
 		self.pick_random_letter()
 		pic = Image.open(self.random_letter)
-		self.work_pic = ImageTk.PhotoImage(pic)
+		self.work_pic = pic
 
 
 	def pick_letters(self):
 
 
-		image1 = self.work_pic
-		image2 = self.work_pic
+		"""Assign prepared images to variables and show in frame"""
 
-		image1_rot = self.rotate_letter(image1)
+		self.made_decision = self.flip_decision()
+		image1 = self.rotate_letter(self.work_pic)
+		image1 = self.make_imagetk(image1)
+		image2 = self.make_imagetk(self.work_pic)
 
 		self.descrip_text = tk.Label(self.descrip_frame, image=image1)
-		self.descrip_text.image = image1_rot
-		self.descrip_text.grid(row=0, column=0, pady=5, padx=5)
+		self.descrip_text.image = image1
+		self.descrip_text.grid(row=0, column=0, pady=15, padx=15)
 
 		self.descrip_text2 = tk.Label(self.descrip_frame, image=image2)
 		self.descrip_text2.image = image2
-		self.descrip_text2.grid(row=0, column=1, pady=5, padx=5)
+		self.descrip_text2.grid(row=0, column=1, pady=15, padx=15)
+
+		self.start_count()
 		
-		self.descrip_text.bind("<Left>", lambda f: self.clear_window())
+		self.descrip_text.bind("<Left>", lambda f: self.arrow_left())
+		self.descrip_text.bind("<Right>", lambda f: self.arrow_right(), "+")
 		self.descrip_text.focus_set()
+
+
+	def start_count(self):
+
+
+		"""Start counting time from showing images"""
+
+		self.controller.rot_start_time = time.time()
+
+
+	def stop_count(self):
+
+
+		"""Stop counting time after user's reaction"""
+
+		self.controller.rot_stop_time = (round(time.time()
+			- self.controller.rot_start_time, 4))
+
+
+	def flip_decision(self):
+
+
+		"""Choose if image1 should be flipped horrizontally or not"""
+
+		decision = random.getrandbits(1)
+		return(decision)
+
+
+	def flip_image(self, image):
+
+
+		"""Flip horrizontally image"""
+
+		im3 = ImageOps.mirror(image)
+		return(im3)
+
+
+	def make_imagetk(self, image):
+
+
+		"""Make image availabale to show for tkinter"""
+
+		image = ImageTk.PhotoImage(image)
+		return(image)
+
+
+	def pre_rotate(self, image):
+
+
+		"""Prepare image so after rotation
+			it still has transparent background"""
+
+		image_work = image.convert('RGBA')
+		return(image_work)
+
 
 	def rotate_letter(self, image):
 
-		angles = [i for i in range (30, 361, 30)]
+		
+		"""Rotate image at specific angle and flip if True"""
 
-		image = image.rotate(random.choice(angles))
+		#create list of possible angles
+		angles = [i for i in range (30, 331, 30)]
+		#assign to attribute - it'll be used later for dicts
+		self.chosen_angle = random.choice(angles)
+		
+		#make background still transparent for rotated image
+		im2 = self.pre_rotate(image)
+		rot = im2.rotate(self.chosen_angle, expand=1)
 
-		return(image)
+		#flip image if true
+		if self.made_decision == True:
+			
+			rot_flip = self.flip_image(rot)
+			return(rot_flip)
+		
+		else:
+			
+			return(rot)
+
+
+	def collect_answers(self):
+
+
+		"""Assign time reaction to proper dict"""
+
+		#if image flipped - assign to flipped dict
+		if self.made_decision == 1:
+
+			for key in self.controller.rot_flip_angle_time:
+				
+				if self.chosen_angle == key:
+					(self.controller.rot_flip_angle_time[key].
+						append(self.controller.rot_stop_time))
+				
+				else:
+					pass
+
+		else:
+
+			for key in self.controller.rot_angle_time:
+				
+				if self.chosen_angle == key:
+					(self.controller.rot_angle_time[key].
+						append(self.controller.rot_stop_time))
+				
+				else:
+					pass
+
+
+	def merge_dicts(self):
+
+
+		"""Create common dict to show later in summary"""
+
+		dict_list = [self.controller.rot_angle_time,
+			self.controller.rot_flip_angle_time]
+
+		for item in dict_list:
+
+			for key, value in item.items():
+
+				(self.controller.rot_merged_times.
+					setdefault(key, []).extend(value))
 
 
 class RotationFigure(tk.Frame):
 
-#TODO: NAVIGATION, DESCRIPTION, STROOPTEST CLASS FOR TEST ITSELF
-
-	def __init__(self, parent, controller):
-
-		tk.Frame.__init__(self, parent)
-		self.controller = controller
-		self.grid_rowconfigure(0, weight=2, minsize=317)
-		self.grid_columnconfigure(0, minsize=475)
-
-		self.descrip_frame = tk.Frame(self)
-		self.descrip_frame.grid(row=0, column=0)
-
-		self.descrip_text = tk.Label(
-			self.descrip_frame, text=ROTATION_INTRO, font=LARGE_FONT,
-			justify='center')
-		self.descrip_text.grid(row=0, column=0)
-		
-		#Lines underneath - creating additional frames
-		#and gridding them in order to properly set the widgets
-		buttonframe = tk.Frame(self)
-		buttonframe.grid(row=1, column=0)
-
-		self.startbut = ttk.Button(
-			buttonframe, text="Start", command=lambda: quit())
-		self.startbut.grid(row=0, column=0, pady=5)
-
-		self.startbut.bind("<Return>", lambda f: quit())
-
-
-	def postupdate(self):
-		self.startbut.focus_set()
-
-
-class RotationImage(tk.Frame):
-
-#TODO: NAVIGATION, DESCRIPTION, STROOPTEST CLASS FOR TEST ITSELF
 
 	def __init__(self, parent, controller):
 
@@ -251,12 +434,19 @@ class RotationImage(tk.Frame):
 		self.controller = controller
 		self.grid_rowconfigure(0, weight=2, minsize=317)
 		self.grid_columnconfigure(0, minsize=475)
+		self.create_widgets()
+		self.image_path()
+		self.generate_image()
+
+
+	def create_widgets(self):
+
 
 		self.descrip_frame = tk.Frame(self)
 		self.descrip_frame.grid(row=0, column=0)
 
 		self.descrip_text = tk.Label(
-			self.descrip_frame, text=ROTATION_INTRO, font=LARGE_FONT,
+			self.descrip_frame, text=ROTATION_ANIM, font=LARGE_FONT,
 			justify='center')
 		self.descrip_text.grid(row=0, column=0)
 		
@@ -265,14 +455,503 @@ class RotationImage(tk.Frame):
 		buttonframe = tk.Frame(self)
 		buttonframe.grid(row=1, column=0)
 
-		self.startbut = ttk.Button(
-			buttonframe, text="Start", command=lambda: quit())
-		self.startbut.grid(row=0, column=0, pady=5)
+		self.startbut = ttk.Button(buttonframe, text="Start",
+			command=lambda: self.start_window())
+		self.startbut.grid(row=0, column=0, padx=15, pady=5)
 
-		self.startbut.bind("<Return>", lambda f: quit())
-
-
-	def postupdate(self):
-
-		
+		self.startbut.bind("<Return>", lambda f: self.start_window())
 		self.startbut.focus_set()
+
+		self.returnbut = ttk.Button(buttonframe, text="Return",
+			command=lambda: self.controller.show_frame("Rotation"))
+		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
+
+		self.returnbut.bind("<Return>",
+			lambda f: self.controller.show_frame("Rotation"), "+")
+
+
+	def start_window(self):
+
+
+		self.descrip_text.grid_remove()
+
+		self.start_descrip = ttk.Label(self.descrip_frame,
+			text="Click 'Enter' to start the test",
+			font=LARGE_FONT, justify='center')
+		self.start_descrip.grid(row=0, column=0)
+
+		self.startbut['command'] = lambda: self.test_window()
+		self.startbut.bind("<Return>", lambda f: self.test_window())
+		self.startbut.focus_set()
+
+		self.returnbut['command'] = lambda: self.create_widgets()
+		self.returnbut.bind("<Return>", lambda f: self.create_widgets(), "+")
+
+
+	def test_window(self, the_number=5):
+
+
+		self.startbut.grid_remove()
+		self.returnbut.grid_remove()
+		self.start_descrip.grid_remove()
+
+		if self.controller.rot_counter < the_number:
+
+			self.fix_point = ttk.Label(self.descrip_frame, text="+",
+				font=SUPER_LARGE, justify='center')
+			self.fix_point.grid(row=0, column=0)
+
+			self.fix_point.after(3000, self.show_animal)
+
+			self.controller.rot_counter += 1
+
+		else:
+
+			self.merge_dicts()
+			self.controller.show_frame("Summary")
+
+
+	def show_animal(self):
+
+
+		self.made_decision = self.flip_decision()
+		image1 = self.rotate_image(self.work_pic)
+		image1 = self.make_imagetk(image1)
+		image2 = self.make_imagetk(self.work_pic)
+
+		self.rotated_img = tk.Label(self.descrip_frame, image=image1)
+		self.rotated_img.image = image1
+		self.rotated_img.grid(row=0, column=0, padx=15, pady=15)
+
+		self.fixed_img = tk.Label(self.descrip_frame, image=image2)
+		self.fixed_img.image = image2
+		self.fixed_img.grid(row=0, column=1, padx=15, pady=15)
+
+		self.start_count()
+
+		self.rotated_img.bind("<Left>", lambda f: self.arrow_left())
+		self.rotated_img.bind("<Right>", lambda f: self.arrow_right())
+		self.rotated_img.focus_set()
+
+
+	def image_path(self):
+
+
+		figure = '2dfigure2'
+		basepath = os.path.dirname(__file__)
+
+		self.imagepath = os.path.abspath(
+				os.path.join(basepath, '..', 'img', figure+'.png'))
+
+
+	def generate_image(self):
+
+
+		self.work_pic = Image.open(self.imagepath)
+		self.work_pic = self.work_pic.convert('RGBA')
+
+
+	def make_imagetk(self, image):
+
+
+		image = ImageTk.PhotoImage(image)
+		return(image)
+
+
+	def rotate_image(self, image):
+
+
+		angles = [angle for angle in range(30, 331, 30)]
+
+		self.chosen_angle = random.choice(angles)
+
+		if self.made_decision == True:
+
+			im_final = image.rotate(self.chosen_angle, expand=1)
+			im_final = self.make_flip(im_final)
+			return(im_final)
+
+		else:
+
+			im_final = image.rotate(self.chosen_angle, expand=1)
+			return(im_final)
+
+
+	@staticmethod
+	def flip_decision():
+
+
+		return(random.getrandbits(1))
+
+
+	@staticmethod
+	def make_flip(image):
+
+
+		return(ImageOps.mirror(image))
+
+
+	def start_count(self):
+
+
+		self.controller.rot_start_time = time.time()
+
+
+	def stop_count(self):
+
+
+		self.controller.rot_stop_time = (round(time.time()
+			- self.controller.rot_start_time, 4))
+
+
+	def arrow_left(self):
+
+
+		self.stop_count()
+		self.collect_answers()
+
+		if self.made_decision == 1:
+
+			self.controller.rot_good_answ += 1
+
+		else:
+
+			self.controller.rot_bad_answ += 1
+
+
+		self.clear_window()
+
+
+	def arrow_right(self):
+
+
+		self.stop_count()
+		self.collect_answers()
+
+		if self.made_decision == 0:
+
+			self.controller.rot_good_answ += 1
+
+		else:
+
+			self.controller.rot_bad_answ += 1
+
+		self.clear_window()
+
+
+	def clear_window(self):
+
+
+		self.rotated_img.grid_remove()
+		self.fixed_img.grid_remove()
+
+		self.test_window()
+
+
+	def collect_answers(self):
+
+
+		"""Assign time reaction to proper dict"""
+
+		#if image flipped - assign to flipped dict
+		if self.made_decision == 1:
+
+			for key in self.controller.rot_flip_angle_time:
+				
+				if self.chosen_angle == key:
+					(self.controller.rot_flip_angle_time[key].
+						append(self.controller.rot_stop_time))
+				
+				else:
+					pass
+
+		else:
+
+			for key in self.controller.rot_angle_time:
+				
+				if self.chosen_angle == key:
+					(self.controller.rot_angle_time[key].
+						append(self.controller.rot_stop_time))
+				
+				else:
+					pass
+
+
+	def merge_dicts(self):
+
+
+		"""Create common dict to show later in summary"""
+
+		dict_list = [self.controller.rot_angle_time,
+			self.controller.rot_flip_angle_time]
+
+		for item in dict_list:
+
+			for key, value in item.items():
+
+				(self.controller.rot_merged_times.
+					setdefault(key, []).extend(value))
+
+
+class RotationAnimal(tk.Frame):
+
+
+	def __init__(self, parent, controller):
+
+
+		tk.Frame.__init__(self, parent)
+		self.controller = controller
+		self.grid_rowconfigure(0, weight=2, minsize=317)
+		self.grid_columnconfigure(0, minsize=475)
+		self.create_widgets()
+		self.image_path()
+		self.generate_image()
+
+
+	def create_widgets(self):
+
+
+		self.descrip_frame = tk.Frame(self)
+		self.descrip_frame.grid(row=0, column=0)
+
+		self.descrip_text = tk.Label(
+			self.descrip_frame, text=ROTATION_ANIM, font=LARGE_FONT,
+			justify='center')
+		self.descrip_text.grid(row=0, column=0)
+		
+		#Lines underneath - creating additional frames
+		#and gridding them in order to properly set the widgets
+		buttonframe = tk.Frame(self)
+		buttonframe.grid(row=1, column=0)
+
+		self.startbut = ttk.Button(buttonframe, text="Start",
+			command=lambda: self.start_window())
+		self.startbut.grid(row=0, column=0, padx=15, pady=5)
+
+		self.startbut.bind("<Return>", lambda f: self.start_window())
+		self.startbut.focus_set()
+
+		self.returnbut = ttk.Button(buttonframe, text="Return",
+			command=lambda: self.controller.show_frame("Rotation"))
+		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
+
+		self.returnbut.bind("<Return>",
+			lambda f: self.controller.show_frame("Rotation"), "+")
+
+
+	def start_window(self):
+
+
+		self.descrip_text.grid_remove()
+
+		self.start_descrip = ttk.Label(self.descrip_frame,
+			text="Click 'Enter' to start the test",
+			font=LARGE_FONT, justify='center')
+		self.start_descrip.grid(row=0, column=0)
+
+		self.startbut['command'] = lambda: self.test_window()
+		self.startbut.bind("<Return>", lambda f: self.test_window())
+		self.startbut.focus_set()
+
+		self.returnbut['command'] = lambda: self.create_widgets()
+		self.returnbut.bind("<Return>", lambda f: self.create_widgets(), "+")
+
+
+	def test_window(self, the_number=5):
+
+
+		self.startbut.grid_remove()
+		self.returnbut.grid_remove()
+		self.start_descrip.grid_remove()
+
+		if self.controller.rot_counter < the_number:
+
+			self.fix_point = ttk.Label(self.descrip_frame, text="+",
+				font=SUPER_LARGE, justify='center')
+			self.fix_point.grid(row=0, column=0)
+
+			self.fix_point.after(3000, self.show_animal)
+
+			self.controller.rot_counter += 1
+
+		else:
+
+			self.merge_dicts()
+			self.controller.show_frame("Summary")
+
+
+	def show_animal(self):
+
+
+		self.made_decision = self.flip_decision()
+		image1 = self.rotate_image(self.work_pic)
+		image1 = self.make_imagetk(image1)
+		image2 = self.make_imagetk(self.work_pic)
+
+		self.rotated_img = tk.Label(self.descrip_frame, image=image1)
+		self.rotated_img.image = image1
+		self.rotated_img.grid(row=0, column=0, padx=15, pady=15)
+
+		self.fixed_img = tk.Label(self.descrip_frame, image=image2)
+		self.fixed_img.image = image2
+		self.fixed_img.grid(row=0, column=1, padx=15, pady=15)
+
+		self.start_count()
+
+		self.rotated_img.bind("<Left>", lambda f: self.arrow_left())
+		self.rotated_img.bind("<Right>", lambda f: self.arrow_right())
+		self.rotated_img.focus_set()
+
+
+	def image_path(self):
+
+
+		animal = 'elephant'
+		basepath = os.path.dirname(__file__)
+
+		self.imagepath = os.path.abspath(
+				os.path.join(basepath, '..', 'img', animal+'.png'))
+
+	def generate_image(self):
+
+
+		self.work_pic = Image.open(self.imagepath)
+		self.work_pic = self.work_pic.convert('RGBA')
+
+
+	def make_imagetk(self, image):
+
+
+		image = ImageTk.PhotoImage(image)
+		return(image)
+
+	def rotate_image(self, image):
+
+		angles = [angle for angle in range(30, 331, 30)]
+
+		self.chosen_angle = random.choice(angles)
+
+		if self.made_decision == True:
+
+			im_final = image.rotate(self.chosen_angle, expand=1)
+			im_final = self.make_flip(im_final)
+			return(im_final)
+
+		else:
+
+			im_final = image.rotate(self.chosen_angle, expand=1)
+			return(im_final)
+
+
+	@staticmethod
+	def flip_decision():
+
+
+		return(random.getrandbits(1))
+
+
+	@staticmethod
+	def make_flip(image):
+
+
+		return(ImageOps.mirror(image))
+
+
+	def start_count(self):
+
+		self.controller.rot_start_time = time.time()
+
+
+	def stop_count(self):
+
+
+		self.controller.rot_stop_time = (round(time.time()
+			- self.controller.rot_start_time, 4))
+
+
+	def arrow_left(self):
+
+
+		self.stop_count()
+		self.collect_answers()
+
+		if self.made_decision == 1:
+
+			self.controller.rot_good_answ += 1
+
+		else:
+
+			self.controller.rot_bad_answ += 1
+
+
+		self.clear_window()
+
+
+	def arrow_right(self):
+
+
+		self.stop_count()
+		self.collect_answers()
+
+		if self.made_decision == 0:
+
+			self.controller.rot_good_answ += 1
+
+		else:
+
+			self.controller.rot_bad_answ += 1
+
+		self.clear_window()
+
+
+	def clear_window(self):
+
+		self.rotated_img.grid_remove()
+		self.fixed_img.grid_remove()
+
+		self.test_window()
+
+
+	def collect_answers(self):
+
+
+		"""Assign time reaction to proper dict"""
+
+		#if image flipped - assign to flipped dict
+		if self.made_decision == 1:
+
+			for key in self.controller.rot_flip_angle_time:
+				
+				if self.chosen_angle == key:
+					(self.controller.rot_flip_angle_time[key].
+						append(self.controller.rot_stop_time))
+				
+				else:
+					pass
+
+		else:
+
+			for key in self.controller.rot_angle_time:
+				
+				if self.chosen_angle == key:
+					(self.controller.rot_angle_time[key].
+						append(self.controller.rot_stop_time))
+				
+				else:
+					pass
+
+
+	def merge_dicts(self):
+
+
+		"""Create common dict to show later in summary"""
+
+		dict_list = [self.controller.rot_angle_time,
+			self.controller.rot_flip_angle_time]
+
+		for item in dict_list:
+
+			for key, value in item.items():
+
+				(self.controller.rot_merged_times.
+					setdefault(key, []).extend(value))

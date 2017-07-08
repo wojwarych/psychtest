@@ -357,11 +357,11 @@ class PsychTest(tk.Tk):
 
 		#variable to keep track of version
 		self.type_rotation = tk.StringVar(type_rotation_grid)
-		self.type_rotation.set('a')
-
+		self.type_rotation.set('letters')
+		
 		#creating radiobutton for options
 		possible_types = [
-						  ('Letters', 'letters'), ('B', 'b'), ('Animal', 'animal')
+						  ('Letters', 'letters'), ('Figure', 'figure'), ('Animal', 'animal')
 						 ]
 		for text, mode in possible_types:
 			version_rotation = ttk.Radiobutton(
