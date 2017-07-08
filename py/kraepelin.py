@@ -16,7 +16,7 @@ Next, type in your number and press enter.
 The program counts your good and bad answers as well as time."""
 
 thank_you_note = (
-	"Thank you in participating in test. Click 'Next', to go further")
+	"Thank you in participating in test.Click 'Next', to go further")
 
 class Kraepelin(tk.Frame):
 
@@ -47,8 +47,12 @@ class Kraepelin(tk.Frame):
 			"<Return>", lambda f: self.controller.show_frame("KrepTest"))
 		self.go_button.grid(row=0, column=0, padx=15, pady=5)
 
-		quit_button = ttk.Button(navigate_frame, text="Quit", command=quit)
+		quit_button = ttk.Button(navigate_frame, text="Return",
+			command=lambda: self.controller.show_frame("StartPage"))
 		quit_button.grid(row=0, column=1, padx=15, pady=5)
+
+		quit_button.bind("<Return>",
+			lambda f: self.controller.show_frame("StartPage"), "+")
 
 
 	def postupdate(self):
@@ -79,7 +83,7 @@ class KrepTest(tk.Frame):
 		self.text.grid(row=0, column=0)
 
 		#Insert introduction to the test and set text's properties
-		self.text.insert('1.0', 10*'\n'+'Click Enter to start the test')
+		self.text.insert('1.0', 10*'\n'+"Click 'Enter' to start the test")
 		self.text.tag_configure("center", justify='center')
 		self.text.tag_add("center", "1.0", tk.END)
 		self.text['state'] = 'disabled'
@@ -91,9 +95,16 @@ class KrepTest(tk.Frame):
 		#startbutton to run test, binded to 'Enter' key
 		self.startbutton = ttk.Button(
 			self.content_frame, text="Start", command=lambda: self.one_test())
+		
 		self.startbutton.bind("<Return>", lambda f: self.one_test())
-		self.startbutton.grid(row=0, column=0)
+		self.startbutton.grid(row=0, column=0, padx=5, pady=5)
 
+		self.return_button = ttk.Button(self.content_frame, text="Return",
+			command=lambda: self.controller.show_frame("Kraepelin"))
+		self.return_button.grid(row=0, column=1, padx=5, pady=5)
+
+		self.return_button.bind("<Return>",
+			lambda f: self.controller.show_frame("Kraepelin"), "+")
 
 	def postupdate(self):
 
@@ -107,6 +118,7 @@ class KrepTest(tk.Frame):
 
 		#Remove startbutton - no longer needed
 		self.startbutton.grid_forget()
+		self.return_button.grid_forget()
 
 		#Run test units as long as it doesn't reach number of desired
 		#shown columns
@@ -262,7 +274,6 @@ class KrepFinish(tk.Frame):
 		self.navbutton = ttk.Button(
 			text_frame_finish, text="Next", command=lambda: self.navigation())
 		self.navbutton.bind("<Return>", lambda f: self.navigation())
-
 		self.navbutton.grid(row=1, column=0)
 
 
