@@ -9,9 +9,11 @@ import time
 LARGE_FONT = ("Verdana", 11)
 
 STROOP_ENTRANCE = 5*'\n'+'STROOP TEST'
-STROOP_COLOR = "You have to choose wether colour of the word\nis the same as the meaning of the word"""
-STROOP_NUMBERS = "You have to choose wether size\nAND value of number is bigger than the other number"
+STROOP_COLOR = """You have to choose whether colour of the word\nis the same as the meaning of the word"""
+STROOP_NUMBERS = "You have to choose whether size\nAND value of number is bigger than the other number"
 STROOP_FIGURAL = "Choose wether the figure is made of the same words\nas the figure."
+thank_you_note = (
+	"Thank you in participating in test. Click 'Next', to go further")
 
 
 class Stroop(tk.Frame):
@@ -47,10 +49,11 @@ class Stroop(tk.Frame):
 		self.nextbut.bind("<Return>", lambda f: self.navigate_stroop())
 		self.nextbut.grid(row=0, column=0, padx=15, pady=5)
 
-		self.quitbut = ttk.Button(
-			buttonframe, text="Quit", command=lambda: quit())
-		self.quitbut.bind("<q>", lambda f: quit())
-		self.quitbut.grid(row=0, column=1, padx=15, pady=5)
+		self.returnbut = ttk.Button(buttonframe, text="Return",
+			command=lambda: self.controller.show_frame("StartPage"))
+		self.returnbut.bind("<Return>",
+			lambda f: self.controller.show_frame("StartPage"), "+")
+		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
 
 
 	def postupdate(self):
@@ -107,10 +110,11 @@ class StroopColor(tk.Frame):
 		self.nextbut.bind("<Return>", lambda f: self.test_window())
 		self.nextbut.grid(row=0, column=0, padx=15, pady=5)
 
-		self.quitbut = ttk.Button(
-			self.buttonframe, text="Quit", command=lambda: quit())
-		self.quitbut.bind("<q>", lambda f: quit())
-		self.quitbut.grid(row=0, column=1, padx=15, pady=5)
+		self.returnbut = ttk.Button(self.buttonframe, text="Return",
+			command=lambda: self.controller.show_frame("Stroop"))
+		self.returnbut.bind("<Return>",
+			lambda f: self.controller.show_frame("Stroop"), "+")
+		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
 
 
 	def postupdate(self):
@@ -137,7 +141,7 @@ class StroopColor(tk.Frame):
 		self.text_color.grid(row=0, column=0)
 
 		#starting experiment
-		self.text_color.insert('1.0', 10*'\n'+'Click Enter to start the test')
+		self.text_color.insert('1.0', 10*'\n'+"Click 'Enter' to start the test")
 		
 		self.text_color.tag_configure("center", justify='center')
 		self.text_color.tag_add("center", "1.0", tk.END)
@@ -147,7 +151,8 @@ class StroopColor(tk.Frame):
 		self.nav_button = ttk.Button(
 			text_color_frame, text="Start", command=lambda: self.color_test())
 		self.nav_button.grid(row=1, column=0)
-		self.nav_button.bind("<Return>", lambda f: self.color_test())
+
+		self.nav_button.bind("<Return>", lambda f: self.color_test(), "+")
 		self.nav_button.focus_set()
 
 
@@ -335,10 +340,11 @@ class StroopNumber(tk.Frame):
 		self.nextbut.bind("<Return>", lambda f: self.test_window())
 		self.nextbut.grid(row=0, column=0, padx=15, pady=5)
 
-		self.quitbut = ttk.Button(
-			self.buttonframe, text="Quit",  command=lambda: quit())
-		self.quitbut.bind("<q>", lambda f: quit())
-		self.quitbut.grid(row=0, column=1, padx=15, pady=5)
+		self.returnbut = ttk.Button(self.buttonframe, text="Return",
+			command=lambda: self.controller.show_frame("Stroop"))
+		self.returnbut.bind("<Return>",
+			lambda f: self.controller.show_frame("Stroop"), "+")
+		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
 
 
 	def postupdate(self):
@@ -364,7 +370,7 @@ class StroopNumber(tk.Frame):
 		self.numbers.grid(row=0, column=0)
 
 		#starting experiment
-		self.numbers.insert('1.0', 10*'\n'+'Click Enter to start the test')
+		self.numbers.insert('1.0', 10*'\n'+"Click 'Enter' to start the test")
 		
 		self.numbers.tag_configure("center", justify='center')
 		self.numbers.tag_add("center", "1.0", tk.END)
@@ -374,6 +380,7 @@ class StroopNumber(tk.Frame):
 		self.nav_button = ttk.Button(
 			number_frame, text="Start", command=lambda: self.numbers_test())
 		self.nav_button.grid(row=1, column=0)
+		
 		self.nav_button.bind("<Return>", lambda f: self.numbers_test())
 		self.nav_button.focus_set()
 
@@ -595,3 +602,57 @@ class StroopFigural(tk.Frame):
 			self.buttonframe, text="Quit", command=lambda: quit())
 		self.quitbut.bind("<q>", lambda f: quit())
 		self.quitbut.grid(row=0, column=1, padx=15, pady=5)
+
+
+class StroopFinish(tk.Frame):
+
+
+	def __init__(self, parent, controller):
+
+
+		tk.Frame.__init__(self, parent)
+
+		self.grid_columnconfigure(0, weight=2)
+		self.controller = controller
+
+		text_frame_finish = tk.Frame(self)
+		text_frame_finish.grid(row=0, column=0)
+
+		self.text_finish = tk.Text(
+			text_frame_finish, font=LARGE_FONT, width=25, bg="#F0F0F0",
+			borderwidth=0)
+		self.text_finish.grid(row=0, column=0)
+		finish_text = (10*'\n' + thank_you_note)
+		self.text_finish.insert('1.0', finish_text)
+		self.text_finish.tag_configure("center", justify='center')
+		self.text_finish.tag_add("center", "1.0", tk.END)
+		self.text_finish['state'] = 'disabled'
+
+		self.navbutton = ttk.Button(
+			text_frame_finish, text="Next", command=lambda: self.navigation())
+		self.navbutton.bind("<Return>", lambda f: self.navigation())
+		self.navbutton.grid(row=1, column=0)
+
+
+	def postupdate(self):
+
+
+		self.navbutton.focus()
+
+
+	def navigation(self):
+
+
+		if self.controller.stroop.get() == 1:
+
+			self.controller.show_frame("Stroop")
+
+		elif (self.controller.stroop.get() == 0 
+			and self.controller.rotation.get() == 1):
+
+			self.controller.show_frame("Rotation")
+
+		elif (self.controller.stroop.get()
+			and self.controller.rotation.get()) == 0:
+
+			self.controller.show_frame("Summary")
