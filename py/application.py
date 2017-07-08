@@ -5,8 +5,8 @@ import os.path
 
 from kraepelin import Kraepelin, KrepTest, KrepFinish
 from start_page import StartPage
-from stroop import Stroop, StroopColor, StroopNumber, StroopFigural
-from rotation import Rotation, RotationLetter, RotationFigure, RotationImage
+from stroop import Stroop, StroopColor, StroopNumber, StroopFigural, StroopFinish
+from rotation import Rotation, RotationLetter, RotationFigure, RotationAnimal
 from summary import Summary
 
 #constans
@@ -93,6 +93,13 @@ class PsychTest(tk.Tk):
 
 		#ROTATION MODULE VARS
 		self.rot_counter = 0
+		self.rot_good_answ = 0
+		self.rot_bad_answ = 0
+		self.rot_angle_time = {x: [] for x in range(30, 331, 30)}
+		self.rot_flip_angle_time = {x: [] for x in range(30, 331, 30)}
+		self.rot_start_time = float()
+		self.rot_stop_time = float()
+		self.rot_merged_times = {}
 
 		#default options of tests
 		self.value_radio_cols = tk.IntVar()
@@ -105,7 +112,7 @@ class PsychTest(tk.Tk):
 		self.mode_stroop.set('classic')
 
 		self.type_rotation = tk.StringVar()
-		self.type_rotation.set('a')
+		self.type_rotation.set('letters')
 
 		#Pack the other windows, as a classes, in a stack;
 		#they are children of 'container' frame
@@ -120,15 +127,17 @@ class PsychTest(tk.Tk):
 								StroopColor,
 								StroopNumber,
 								StroopFigural,
+								StroopFinish,
 								Rotation,
 								RotationLetter,
 								RotationFigure,
-								RotationImage,
+								RotationAnimal,
 								Summary,
 							   ),
 							   (
 								'600x333',
 								'495x333',
+								'475x475',
 								'475x475',
 								'475x475',
 								'475x475',
@@ -352,7 +361,7 @@ class PsychTest(tk.Tk):
 
 		#creating radiobutton for options
 		possible_types = [
-						  ('A', 'a'), ('B', 'b'), ('C', 'c')
+						  ('Letters', 'letters'), ('B', 'b'), ('Animal', 'animal')
 						 ]
 		for text, mode in possible_types:
 			version_rotation = ttk.Radiobutton(
