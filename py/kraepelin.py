@@ -271,11 +271,19 @@ class KrepFinish(tk.Frame):
 		self.text_finish.tag_add("center", "1.0", tk.END)
 		self.text_finish['state'] = 'disabled'
 
-		self.navbutton = ttk.Button(
-			text_frame_finish, text="Next", command=lambda: self.navigation())
-		self.navbutton.bind("<Return>", lambda f: self.navigation())
-		self.navbutton.grid(row=1, column=0)
+		nav_frame = tk.Frame(self)
+		nav_frame.grid(row=1, column=0)
 
+		self.navbutton = ttk.Button(nav_frame, text="Next",
+			command=lambda: self.navigation())
+		self.navbutton.bind("<Return>", lambda f: self.navigation())
+		self.navbutton.grid(row=1, column=0, padx=5, pady=5)
+
+		self.menubutton = ttk.Button(nav_frame, text="Menu",
+			command=lambda: self.controller.show_frame("StartPage"))
+		self.menubutton.bind("<Return>",
+			lambda f: self.controller.show_frame("StartPage"), "+")
+		self.menubutton.grid(row=1, column=1, padx=5, pady=5)
 
 	def postupdate(self):
 

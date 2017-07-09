@@ -7,10 +7,16 @@ import time
 
 #constans
 LARGE_FONT = ("Verdana", 11)
+NORMAL_FONT = ("Verdana", 10)
 
 STROOP_ENTRANCE = 5*'\n'+'STROOP TEST'
-STROOP_COLOR = """You have to choose whether colour of the word\nis the same as the meaning of the word"""
-STROOP_NUMBERS = "You have to choose whether size\nAND value of number is bigger than the other number"
+STROOP_COLOR = """You will see two words describing colours
+(e.g. 'blue', 'red') in different font colours. If the meaning of
+the word and colour of the font are the same, press left arrow key.
+Otherwise, click right arrow key."""
+STROOP_NUMBERS = """You will see two numbers in different font sizes.
+If one's number value and font size are greater than the other number
+value and size - press left arrow key. Otherwise, click right arrow key."""
 STROOP_FIGURAL = "Choose wether the figure is made of the same words\nas the figure."
 thank_you_note = (
 	"Thank you in participating in test. Click 'Next', to go further")
@@ -97,7 +103,7 @@ class StroopColor(tk.Frame):
 		#description label
 		descrip_lab = tk.Label(
 			self.descrip_frame, text=STROOP_COLOR,
-			font=LARGE_FONT, justify='center')
+			font=NORMAL_FONT, justify='center')
 		descrip_lab.grid(row=0, column=0)
 		
 		#navigation buttons
@@ -185,7 +191,7 @@ class StroopColor(tk.Frame):
 			self.controller.stroop_counter += 1
 
 		else:
-			self.controller.show_frame("Summary")
+			self.controller.show_frame("StroopFinish")
 
 
 	def random_word(self):
@@ -326,7 +332,7 @@ class StroopNumber(tk.Frame):
 
 		#label for description of test
 		descrip_lab = tk.Label(
-			self.descrip_frame, text=STROOP_NUMBERS, font=LARGE_FONT,
+			self.descrip_frame, text=STROOP_NUMBERS, font=NORMAL_FONT,
 			justify='center')
 		descrip_lab.grid(row=0, column=0)
 		
@@ -417,7 +423,7 @@ class StroopNumber(tk.Frame):
 		else:
 
 			#end experiment
-			self.controller.show_frame("Summary")
+			self.controller.show_frame("StroopFinish")
 
 
 	def random_num(self):
@@ -618,9 +624,8 @@ class StroopFinish(tk.Frame):
 		text_frame_finish = tk.Frame(self)
 		text_frame_finish.grid(row=0, column=0)
 
-		self.text_finish = tk.Text(
-			text_frame_finish, font=LARGE_FONT, width=25, bg="#F0F0F0",
-			borderwidth=0)
+		self.text_finish = tk.Text(text_frame_finish, font=LARGE_FONT,
+			width=25, bg="#F0F0F0", borderwidth=0)
 		self.text_finish.grid(row=0, column=0)
 		finish_text = (10*'\n' + thank_you_note)
 		self.text_finish.insert('1.0', finish_text)
@@ -628,10 +633,20 @@ class StroopFinish(tk.Frame):
 		self.text_finish.tag_add("center", "1.0", tk.END)
 		self.text_finish['state'] = 'disabled'
 
-		self.navbutton = ttk.Button(
-			text_frame_finish, text="Next", command=lambda: self.navigation())
-		self.navbutton.bind("<Return>", lambda f: self.navigation())
-		self.navbutton.grid(row=1, column=0)
+		nav_frame = tk.Frame(self)
+		nav_frame.grid(row=1, column=0)
+
+		self.navbutton = ttk.Button(nav_frame, text="Next",
+			command=lambda: self.navigation())
+		self.navbutton.bind("<Return>",
+			lambda f: self.navigation())
+		self.navbutton.grid(row=1, column=0, padx=5, pady=5)
+
+		self.menubutton = ttk.Button(nav_frame, text="Menu",
+			command=lambda: self.controller.show_frame("StartPage"))
+		self.menubutton.bind("<Return>",
+			lambda f: self.controller.show_frame("StartPage"), "+")
+		self.menubutton.grid(row=1, column=1, padx=5, pady=5)
 
 
 	def postupdate(self):
@@ -643,16 +658,10 @@ class StroopFinish(tk.Frame):
 	def navigation(self):
 
 
-		if self.controller.stroop.get() == 1:
-
-			self.controller.show_frame("Stroop")
-
-		elif (self.controller.stroop.get() == 0 
-			and self.controller.rotation.get() == 1):
+		if self.controller.rotation.get() == 1:
 
 			self.controller.show_frame("Rotation")
 
-		elif (self.controller.stroop.get()
-			and self.controller.rotation.get()) == 0:
+		else:
 
 			self.controller.show_frame("Summary")

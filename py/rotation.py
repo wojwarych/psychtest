@@ -12,12 +12,20 @@ NORMAL_FONT = ("Verdana", 10)
 SMALL_FONT = ("Verdana", 9)
 
 ROTATION_INTRO = "MENTAL ROTATION TEST"
-ROTATION_LETTER = """You're about to shown two same letters.
-One of them will be shown normally, the other one
-might be rotated and flipped vertically
-(reflection symmetry). Your task is to decide if those letters
-are the same (are not flipped vertically) or are different."""
-ROTATION_ANIM = """THIS TEST TEXT"""
+ROTATION_LETTER = """You're about to shown two letters.
+Your task is to decide whether the letter on the left is the same
+or flipped. If you think that the letter is flipped, press left arrow key.
+Otherwise, press right arrow key."""
+ROTATION_ANIM = """You're about to shown two images of an animal.
+Your task is to decide whether the image on the left is the same
+or flipped. If you think that the image is flipped, press left arrow key.
+Otherwise, press right arrow key."""
+ROTATION_FIGURE = """You're about to shown two figures.
+Your task is to decide whether the figure on the left is the same
+or flipped. If you think that the figure is flipped, press left arrow key.
+Otherwise, press right arrow key."""
+thank_you_note = (
+	"Thank you in participating in test. Click 'Next', to go further")
 
 
 class Rotation(tk.Frame):
@@ -188,7 +196,7 @@ class RotationLetter(tk.Frame):
 
 			#merged dict for summary purposes
 			self.merge_dicts()
-			self.controller.show_frame("Summary")
+			self.controller.show_frame("RotationFinish")
 
 
 	def arrow_left(self):
@@ -446,7 +454,7 @@ class RotationFigure(tk.Frame):
 		self.descrip_frame.grid(row=0, column=0)
 
 		self.descrip_text = tk.Label(
-			self.descrip_frame, text=ROTATION_ANIM, font=LARGE_FONT,
+			self.descrip_frame, text=ROTATION_FIGURE, font=NORMAL_FONT,
 			justify='center')
 		self.descrip_text.grid(row=0, column=0)
 		
@@ -488,6 +496,14 @@ class RotationFigure(tk.Frame):
 		self.returnbut.bind("<Return>", lambda f: self.create_widgets(), "+")
 
 
+	def postupdate(self):
+
+
+		"""Get focus for the first button"""
+
+		self.startbut.focus_set()
+
+
 	def test_window(self, the_number=5):
 
 
@@ -508,7 +524,7 @@ class RotationFigure(tk.Frame):
 		else:
 
 			self.merge_dicts()
-			self.controller.show_frame("Summary")
+			self.controller.show_frame("RotationFinish")
 
 
 	def show_animal(self):
@@ -715,7 +731,7 @@ class RotationAnimal(tk.Frame):
 		self.descrip_frame.grid(row=0, column=0)
 
 		self.descrip_text = tk.Label(
-			self.descrip_frame, text=ROTATION_ANIM, font=LARGE_FONT,
+			self.descrip_frame, text=ROTATION_ANIM, font=NORMAL_FONT,
 			justify='center')
 		self.descrip_text.grid(row=0, column=0)
 		
@@ -777,7 +793,7 @@ class RotationAnimal(tk.Frame):
 		else:
 
 			self.merge_dicts()
-			self.controller.show_frame("Summary")
+			self.controller.show_frame("RotationFInish")
 
 
 	def show_animal(self):
@@ -955,3 +971,47 @@ class RotationAnimal(tk.Frame):
 
 				(self.controller.rot_merged_times.
 					setdefault(key, []).extend(value))
+
+class RotationFinish(tk.Frame):
+
+
+	def __init__(self, parent, controller):
+
+
+		tk.Frame.__init__(self, parent)
+
+		self.grid_columnconfigure(0, weight=2)
+		self.controller = controller
+
+		text_frame_finish = tk.Frame(self)
+		text_frame_finish.grid(row=0, column=0)
+
+		self.text_finish = tk.Text(
+			text_frame_finish, font=LARGE_FONT, width=25, bg="#F0F0F0",
+			borderwidth=0)
+		self.text_finish.grid(row=0, column=0)
+		finish_text = (10*'\n' + thank_you_note)
+		self.text_finish.insert('1.0', finish_text)
+		self.text_finish.tag_configure("center", justify='center')
+		self.text_finish.tag_add("center", "1.0", tk.END)
+		self.text_finish['state'] = 'disabled'
+
+		nav_frame = tk.Frame(self)
+		nav_frame.grid(row=1, column=0)
+
+		self.navbutton = ttk.Button(nav_frame, text="Next",
+			command=lambda: self.controller.show_frame("Summary"))
+		self.navbutton.bind("<Return>", lambda f: self.controller.show_frame("Summary"))
+		self.navbutton.grid(row=1, column=0)
+
+		self.menubutton = ttk.Button(nav_frame, text="Menu",
+			command=lambda: self.controller.show_frame("StartPage"))
+		self.menubutton.bind("<Return>",
+			lambda f: self.controller.show_frame("StartPage"), "+")
+		self.menubutton.grid(row=1, column=1)
+
+
+	def postupdate(self):
+
+
+		self.navbutton.focus()

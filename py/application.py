@@ -8,7 +8,7 @@ import os.path
 from kraepelin import Kraepelin, KrepTest, KrepFinish
 from start_page import StartPage
 from stroop import Stroop, StroopColor, StroopNumber, StroopFigural, StroopFinish
-from rotation import Rotation, RotationLetter, RotationFigure, RotationAnimal
+from rotation import Rotation, RotationLetter, RotationFigure, RotationAnimal, RotationFinish
 from summary import Summary
 
 #constans
@@ -55,7 +55,7 @@ class PsychTest(tk.Tk):
 		mainmenu.add_separator()
 
 		#exit option in menu cascade
-		mainmenu.add_command(label="Exit", command=quit)
+		mainmenu.add_command(label="Exit", command=lambda: self.quit_msg())
 		
 		#menu cascade
 		menubar.add_cascade(label="Menu", menu=mainmenu)
@@ -134,11 +134,13 @@ class PsychTest(tk.Tk):
 								RotationLetter,
 								RotationFigure,
 								RotationAnimal,
+								RotationFinish,
 								Summary,
 							   ),
 							   (
 								'600x333',
 								'495x333',
+								'475x475',
 								'475x475',
 								'475x475',
 								'475x475',
@@ -163,7 +165,7 @@ class PsychTest(tk.Tk):
 
 		self.show_frame("StartPage")
 
-		self.protocol("WM_DELETE_WINDOW", self.callback)
+		self.protocol("WM_DELETE_WINDOW", self.quit_msg)
 
 
 	def show_frame(self, cont):
@@ -231,7 +233,7 @@ class PsychTest(tk.Tk):
 		#TODO: text of message, button to github/sending e-mail?
 
 
-	def callback(self):
+	def quit_msg(self):
 
 
 		if messagebox.askokcancel("Quit",

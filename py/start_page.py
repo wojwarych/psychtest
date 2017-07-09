@@ -84,8 +84,8 @@ class StartPage(tk.Frame):
 		self.nxt_button.grid(row=0, column=0, padx=2, sticky='se')
 
 		quit_button = ttk.Button(
-			button_frame, text="Quit", command=lambda: quit())
-		quit_button.bind("<q>", lambda f: quit())
+			button_frame, text="Quit", command=lambda: self.controller.quit_msg())
+		quit_button.bind("<Return>", lambda f: self.controller.quit_msg(), "+")
 		quit_button.grid(row=0, column=1, padx=2, sticky='se')
 
 
