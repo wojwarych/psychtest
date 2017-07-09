@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
+
 
 import os.path
 
@@ -161,6 +163,8 @@ class PsychTest(tk.Tk):
 
 		self.show_frame("StartPage")
 
+		self.protocol("WM_DELETE_WINDOW", self.callback)
+
 
 	def show_frame(self, cont):
 
@@ -226,6 +230,13 @@ class PsychTest(tk.Tk):
 
 		#TODO: text of message, button to github/sending e-mail?
 
+
+	def callback(self):
+
+
+		if messagebox.askokcancel("Quit",
+			"Do you really wish to quit? All the results will be lost."):
+			self.destroy()
 
 	def showSettings(self):
 
