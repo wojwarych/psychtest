@@ -47,11 +47,13 @@ class Kraepelin(tk.Frame):
 			"<Return>", lambda f: self.controller.show_frame("KrepTest"))
 		self.go_button.grid(row=0, column=0, padx=15, pady=5)
 
-		quit_button = ttk.Button(navigate_frame, text="Return",
+		quit_button = ttk.Button(
+			navigate_frame, text="Return",
 			command=lambda: self.controller.show_frame("StartPage"))
 		quit_button.grid(row=0, column=1, padx=15, pady=5)
 
-		quit_button.bind("<Return>",
+		quit_button.bind(
+			"<Return>",
 			lambda f: self.controller.show_frame("StartPage"), "+")
 
 
@@ -59,6 +61,7 @@ class Kraepelin(tk.Frame):
 
 
 		"""Function to change focus between classes-frames in controller"""
+		
 		self.go_button.focus()
 
 
@@ -99,17 +102,20 @@ class KrepTest(tk.Frame):
 		self.startbutton.bind("<Return>", lambda f: self.one_test())
 		self.startbutton.grid(row=0, column=0, padx=5, pady=5)
 
-		self.return_button = ttk.Button(self.content_frame, text="Return",
+		self.return_button = ttk.Button(
+			self.content_frame, text="Return",
 			command=lambda: self.controller.show_frame("Kraepelin"))
 		self.return_button.grid(row=0, column=1, padx=5, pady=5)
 
-		self.return_button.bind("<Return>",
+		self.return_button.bind(
+			"<Return>",
 			lambda f: self.controller.show_frame("Kraepelin"), "+")
 
 	def postupdate(self):
 
 
 		"""Method to get focus at the beginning"""
+		
 		self.startbutton.focus()
 
 
@@ -189,6 +195,7 @@ class KrepTest(tk.Frame):
 
 
 		"""Start counting time when numbers appear"""
+		
 		self.controller.krep_time_start = time.time()
 
 
@@ -196,6 +203,7 @@ class KrepTest(tk.Frame):
 
 
 		"""Stop counting time after pressing button. Add time to list"""
+		
 		self.controller.krep_time_finish = (
 			round(time.time() - self.controller.krep_time_start, 4))
 		self.controller.krep_time_stamps.append(
@@ -212,6 +220,7 @@ class KrepTest(tk.Frame):
 
 
 		"""Store value from self.entryvar in list for later comparison"""
+
 		self.controller.krep_answer_total.append(
 			int(self.controller.krep_answer.get()))
 
@@ -220,6 +229,7 @@ class KrepTest(tk.Frame):
 
 
 		"""Core of test - random numbers from 1 to 9 showed in column as a string"""
+		
 		column_str = ""
 		column = ([randint(1,9) for num in
 			range(self.controller.value_radio_nums.get())])
@@ -236,6 +246,7 @@ class KrepTest(tk.Frame):
 
 		"""Check if value from showed column is equal to its
 			self.controller.answer_krep"""
+		
 		for i, j in enumerate(self.controller.krep_compare_total):
 
 			if (self.controller.krep_compare_total[i]
@@ -274,14 +285,16 @@ class KrepFinish(tk.Frame):
 		nav_frame = tk.Frame(self)
 		nav_frame.grid(row=1, column=0)
 
-		self.navbutton = ttk.Button(nav_frame, text="Next",
-			command=lambda: self.navigation())
+		self.navbutton = ttk.Button(
+			nav_frame, text="Next", command=lambda: self.navigation())
 		self.navbutton.bind("<Return>", lambda f: self.navigation())
 		self.navbutton.grid(row=1, column=0, padx=5, pady=5)
 
-		self.menubutton = ttk.Button(nav_frame, text="Menu",
+		self.menubutton = ttk.Button(
+			nav_frame, text="Menu",
 			command=lambda: self.controller.show_frame("StartPage"))
-		self.menubutton.bind("<Return>",
+		self.menubutton.bind(
+			"<Return>",
 			lambda f: self.controller.show_frame("StartPage"), "+")
 		self.menubutton.grid(row=1, column=1, padx=5, pady=5)
 

@@ -49,8 +49,8 @@ class StartPage(tk.Frame):
 		description_frame = tk.Frame(content_frame)
 		description_frame.grid(row=0, column=0, padx=25, pady=25, sticky='we')
 		description = tk.Label(
-			description_frame, text=APP_DESCRIPTION,
-			font=LARGE_FONT, justify='left')
+			description_frame, text=APP_DESCRIPTION, font=LARGE_FONT,
+			justify='left')
 		description.grid(row=0, column=0, sticky='nwse')
 
 		#chekbuttons to choose which tests to run

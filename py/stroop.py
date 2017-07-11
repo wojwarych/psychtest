@@ -102,8 +102,8 @@ class StroopColor(tk.Frame):
 
 		#description label
 		descrip_lab = tk.Label(
-			self.descrip_frame, text=STROOP_COLOR,
-			font=NORMAL_FONT, justify='center')
+			self.descrip_frame, text=STROOP_COLOR, font=NORMAL_FONT,
+			justify='center')
 		descrip_lab.grid(row=0, column=0)
 		
 		#navigation buttons
@@ -116,7 +116,8 @@ class StroopColor(tk.Frame):
 		self.nextbut.bind("<Return>", lambda f: self.test_window())
 		self.nextbut.grid(row=0, column=0, padx=15, pady=5)
 
-		self.returnbut = ttk.Button(self.buttonframe, text="Return",
+		self.returnbut = ttk.Button(
+			self.buttonframe, text="Return",
 			command=lambda: self.controller.show_frame("Stroop"))
 		self.returnbut.bind("<Return>",
 			lambda f: self.controller.show_frame("Stroop"), "+")
@@ -346,7 +347,8 @@ class StroopNumber(tk.Frame):
 		self.nextbut.bind("<Return>", lambda f: self.test_window())
 		self.nextbut.grid(row=0, column=0, padx=15, pady=5)
 
-		self.returnbut = ttk.Button(self.buttonframe, text="Return",
+		self.returnbut = ttk.Button(
+			self.buttonframe, text="Return",
 			command=lambda: self.controller.show_frame("Stroop"))
 		self.returnbut.bind("<Return>",
 			lambda f: self.controller.show_frame("Stroop"), "+")
@@ -624,8 +626,9 @@ class StroopFinish(tk.Frame):
 		text_frame_finish = tk.Frame(self)
 		text_frame_finish.grid(row=0, column=0)
 
-		self.text_finish = tk.Text(text_frame_finish, font=LARGE_FONT,
-			width=25, bg="#F0F0F0", borderwidth=0)
+		self.text_finish = tk.Text(
+			text_frame_finish, font=LARGE_FONT, width=25, bg="#F0F0F0",
+			borderwidth=0)
 		self.text_finish.grid(row=0, column=0)
 		finish_text = (10*'\n' + thank_you_note)
 		self.text_finish.insert('1.0', finish_text)
@@ -636,15 +639,17 @@ class StroopFinish(tk.Frame):
 		nav_frame = tk.Frame(self)
 		nav_frame.grid(row=1, column=0)
 
-		self.navbutton = ttk.Button(nav_frame, text="Next",
-			command=lambda: self.navigation())
-		self.navbutton.bind("<Return>",
-			lambda f: self.navigation())
+		self.navbutton = ttk.Button(
+			nav_frame, text="Next", command=lambda: self.navigation())
+		self.navbutton.bind(
+			"<Return>", lambda f: self.navigation())
 		self.navbutton.grid(row=1, column=0, padx=5, pady=5)
 
-		self.menubutton = ttk.Button(nav_frame, text="Menu",
+		self.menubutton = ttk.Button(
+			nav_frame, text="Menu",
 			command=lambda: self.controller.show_frame("StartPage"))
-		self.menubutton.bind("<Return>",
+		self.menubutton.bind(
+			"<Return>",
 			lambda f: self.controller.show_frame("StartPage"), "+")
 		self.menubutton.grid(row=1, column=1, padx=5, pady=5)
 

@@ -130,7 +130,8 @@ class RotationLetter(tk.Frame):
 		self.startbut.bind("<Return>", lambda f: self.start_window())
 		self.startbut.focus_set()
 
-		self.returnbut = ttk.Button(buttonframe, text="Return",
+		self.returnbut = ttk.Button(
+			buttonframe, text="Return",
 			command=lambda: self.controller.show_frame("Rotation"))
 		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
 
@@ -463,14 +464,15 @@ class RotationFigure(tk.Frame):
 		buttonframe = tk.Frame(self)
 		buttonframe.grid(row=1, column=0)
 
-		self.startbut = ttk.Button(buttonframe, text="Start",
-			command=lambda: self.start_window())
+		self.startbut = ttk.Button(
+			buttonframe, text="Start", command=lambda: self.start_window())
 		self.startbut.grid(row=0, column=0, padx=15, pady=5)
 
 		self.startbut.bind("<Return>", lambda f: self.start_window())
 		self.startbut.focus_set()
 
-		self.returnbut = ttk.Button(buttonframe, text="Return",
+		self.returnbut = ttk.Button(
+			buttonframe, text="Return",
 			command=lambda: self.controller.show_frame("Rotation"))
 		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
 
@@ -483,8 +485,8 @@ class RotationFigure(tk.Frame):
 
 		self.descrip_text.grid_remove()
 
-		self.start_descrip = ttk.Label(self.descrip_frame,
-			text="Click 'Enter' to start the test",
+		self.start_descrip = ttk.Label(
+			self.descrip_frame, text="Click 'Enter' to start the test",
 			font=LARGE_FONT, justify='center')
 		self.start_descrip.grid(row=0, column=0)
 
@@ -513,11 +515,12 @@ class RotationFigure(tk.Frame):
 
 		if self.controller.rot_counter < the_number:
 
-			self.fix_point = ttk.Label(self.descrip_frame, text="+",
-				font=SUPER_LARGE, justify='center')
+			self.fix_point = ttk.Label(
+				self.descrip_frame, text="+", font=SUPER_LARGE,
+				justify='center')
 			self.fix_point.grid(row=0, column=0)
 
-			self.fix_point.after(3000, self.show_animal)
+			self.fix_point.after(3000, self.show_figure)
 
 			self.controller.rot_counter += 1
 
@@ -527,7 +530,7 @@ class RotationFigure(tk.Frame):
 			self.controller.show_frame("RotationFinish")
 
 
-	def show_animal(self):
+	def show_figure(self):
 
 
 		self.made_decision = self.flip_decision()
@@ -740,14 +743,16 @@ class RotationAnimal(tk.Frame):
 		buttonframe = tk.Frame(self)
 		buttonframe.grid(row=1, column=0)
 
-		self.startbut = ttk.Button(buttonframe, text="Start",
+		self.startbut = ttk.Button(
+			buttonframe, text="Start",
 			command=lambda: self.start_window())
 		self.startbut.grid(row=0, column=0, padx=15, pady=5)
 
 		self.startbut.bind("<Return>", lambda f: self.start_window())
 		self.startbut.focus_set()
 
-		self.returnbut = ttk.Button(buttonframe, text="Return",
+		self.returnbut = ttk.Button(
+			buttonframe, text="Return",
 			command=lambda: self.controller.show_frame("Rotation"))
 		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
 
@@ -760,8 +765,8 @@ class RotationAnimal(tk.Frame):
 
 		self.descrip_text.grid_remove()
 
-		self.start_descrip = ttk.Label(self.descrip_frame,
-			text="Click 'Enter' to start the test",
+		self.start_descrip = ttk.Label(
+			self.descrip_frame, text="Click 'Enter' to start the test",
 			font=LARGE_FONT, justify='center')
 		self.start_descrip.grid(row=0, column=0)
 
@@ -782,8 +787,9 @@ class RotationAnimal(tk.Frame):
 
 		if self.controller.rot_counter < the_number:
 
-			self.fix_point = ttk.Label(self.descrip_frame, text="+",
-				font=SUPER_LARGE, justify='center')
+			self.fix_point = ttk.Label(
+				self.descrip_frame, text="+", font=SUPER_LARGE,
+				justify='center')
 			self.fix_point.grid(row=0, column=0)
 
 			self.fix_point.after(3000, self.show_animal)
@@ -828,6 +834,7 @@ class RotationAnimal(tk.Frame):
 		self.imagepath = os.path.abspath(
 				os.path.join(basepath, '..', 'img', animal+'.png'))
 
+
 	def generate_image(self):
 
 
@@ -840,6 +847,7 @@ class RotationAnimal(tk.Frame):
 
 		image = ImageTk.PhotoImage(image)
 		return(image)
+
 
 	def rotate_image(self, image):
 
@@ -972,6 +980,13 @@ class RotationAnimal(tk.Frame):
 				(self.controller.rot_merged_times.
 					setdefault(key, []).extend(value))
 
+
+	def postupdate(self):
+
+
+		self.navbutton.focus()
+
+
 class RotationFinish(tk.Frame):
 
 
@@ -999,16 +1014,19 @@ class RotationFinish(tk.Frame):
 		nav_frame = tk.Frame(self)
 		nav_frame.grid(row=1, column=0)
 
-		self.navbutton = ttk.Button(nav_frame, text="Next",
+		self.navbutton = ttk.Button(
+			nav_frame, text="Next",
 			command=lambda: self.controller.show_frame("Summary"))
-		self.navbutton.bind("<Return>", lambda f: self.controller.show_frame("Summary"))
-		self.navbutton.grid(row=1, column=0)
+		self.navbutton.bind(
+			"<Return>", lambda f: self.controller.show_frame("Summary"))
+		self.navbutton.grid(row=1, column=0, padx=15, pady=15)
 
-		self.menubutton = ttk.Button(nav_frame, text="Menu",
+		self.menubutton = ttk.Button(
+			nav_frame, text="Menu",
 			command=lambda: self.controller.show_frame("StartPage"))
-		self.menubutton.bind("<Return>",
-			lambda f: self.controller.show_frame("StartPage"), "+")
-		self.menubutton.grid(row=1, column=1)
+		self.menubutton.bind(
+			"<Return>", lambda f: self.controller.show_frame("StartPage"), "+")
+		self.menubutton.grid(row=1, column=1, padx=15, pady=5)
 
 
 	def postupdate(self):

@@ -195,8 +195,8 @@ class PsychTest(tk.Tk):
 			
 			self.show_frame("Stroop")
 		
-		elif ((self.rotation.get() == 1) &
-			(self.krep.get() == 0 & self.stroop.get() == 0)):
+		elif ((self.rotation.get() == 1)
+			& (self.krep.get() == 0 & self.stroop.get() == 0)):
 			
 			self.show_frame("Rotation")
 		
@@ -219,8 +219,7 @@ class PsychTest(tk.Tk):
 		about_label.pack(side="top", fill='x', pady=10)
 
 		about_button = ttk.Button(
-			about_frame, text="Ok",
-			command=about_frame.destroy)
+			about_frame, text="Ok", command=about_frame.destroy)
 		about_button.pack()
 		
 		#Get rid of minimize and maximize button
@@ -262,14 +261,12 @@ class PsychTest(tk.Tk):
 
 		#title of test
 		krep_name = ttk.Label(
-			krep_frame, font=SMALL_FONT,
-			text="KRAEPELIN TEST")
+			krep_frame, font=SMALL_FONT, text="KRAEPELIN TEST")
 		krep_name.grid(row=0, column=0)
 
 		#change number of columns
 		krep_option1 = ttk.Label(
-			krep_frame, font=SMALL_FONT,
-			text="Number of columns:")
+			krep_frame, font=SMALL_FONT, text="Number of columns:")
 		krep_option1.grid(row=1, column=0)
 
 		#frame for radiobutton with options + for variable keeping track
@@ -374,7 +371,8 @@ class PsychTest(tk.Tk):
 		
 		#creating radiobutton for options
 		possible_types = [
-						  ('Letters', 'letters'), ('Figure', 'figure'), ('Animal', 'animal')
+						  ('Letters', 'letters'), ('Figure', 'figure'),
+						  ('Animal', 'animal')
 						 ]
 		for text, mode in possible_types:
 			version_rotation = ttk.Radiobutton(
