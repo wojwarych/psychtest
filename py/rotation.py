@@ -39,13 +39,13 @@ class Rotation(tk.Frame):
 		self.grid_rowconfigure(0, weight=2, minsize=317)
 		self.grid_columnconfigure(0, minsize=475)
 
-		self.descrip_frame = tk.Frame(self)
-		self.descrip_frame.grid(row=0, column=0)
+		descrip_frame = tk.Frame(self)
+		descrip_frame.grid(row=0, column=0)
 
-		self.descrip_text = tk.Label(
-			self.descrip_frame, text=ROTATION_INTRO, font=LARGE_FONT,
+		descrip_text = tk.Label(
+			descrip_frame, text=ROTATION_INTRO, font=LARGE_FONT,
 			justify='center')
-		self.descrip_text.grid(row=0, column=0)
+		descrip_text.grid(row=0, column=0)
 		
 		#Lines underneath - creating additional frames
 		#and gridding them in order to properly set the widgets
@@ -58,11 +58,11 @@ class Rotation(tk.Frame):
 
 		self.nextbut.bind("<Return>", lambda f: self.test_handler())
 		
-		self.returnbut = ttk.Button(buttonframe, text="Return",
+		returnbut = ttk.Button(buttonframe, text="Return",
 			command=lambda: self.controller.show_frame("StartPage"))
-		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
+		returnbut.grid(row=0, column=1, padx=15, pady=5)
 
-		self.returnbut.bind("<Return>",
+		returnbut.bind("<Return>",
 			lambda f: self.controller.show_frame("StartPage"), "+")
 
 
@@ -107,6 +107,12 @@ class RotationLetter(tk.Frame):
 
 	def create_widgets(self):
 		
+		try:
+			self.start_test.destroy()
+			self.buttonframe.destroy()
+
+		except:
+			pass
 
 		#widgets in this module has to be separated from __init__
 		#for navigation purposes
@@ -120,10 +126,11 @@ class RotationLetter(tk.Frame):
 		
 		#create widgets to navigate through this experiment
 		#bind actions
-		buttonframe = tk.Frame(self)
-		buttonframe.grid(row=1, column=0)
+		self.buttonframe = tk.Frame(self)
+		self.buttonframe.grid(row=1, column=0)
 
-		self.startbut = ttk.Button(buttonframe, text="Start",
+		self.startbut = ttk.Button(
+			self.buttonframe, text="Start",
 			command=lambda: self.start_window())
 		self.startbut.grid(row=0, column=0, padx=15, pady=5)
 
@@ -131,7 +138,7 @@ class RotationLetter(tk.Frame):
 		self.startbut.focus_set()
 
 		self.returnbut = ttk.Button(
-			buttonframe, text="Return",
+			self.buttonframe, text="Return",
 			command=lambda: self.controller.show_frame("Rotation"))
 		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
 
@@ -155,7 +162,7 @@ class RotationLetter(tk.Frame):
 		"""Prepare window for the test"""
 		
 		#remove description of test and nav buttons from view
-		self.descrip_text.grid_remove()
+		self.descrip_text.destroy()
 
 		#starting experiment
 		self.start_test = tk.Label(
@@ -177,9 +184,9 @@ class RotationLetter(tk.Frame):
 		"""Body of experiment"""
 
 		#remove useless widgets
-		self.start_test.grid_remove()
-		self.startbut.grid_remove()
-		self.returnbut.grid_remove()
+		self.start_test.destroy()
+		self.buttonframe.destroy()
+
 		
 		if self.controller.rot_counter < the_number:
 
@@ -451,6 +458,14 @@ class RotationFigure(tk.Frame):
 	def create_widgets(self):
 
 
+		try:
+
+			self.start_test.destroy()
+			self.buttonframe.destroy()
+
+		except:
+			pass
+
 		self.descrip_frame = tk.Frame(self)
 		self.descrip_frame.grid(row=0, column=0)
 
@@ -461,18 +476,18 @@ class RotationFigure(tk.Frame):
 		
 		#Lines underneath - creating additional frames
 		#and gridding them in order to properly set the widgets
-		buttonframe = tk.Frame(self)
-		buttonframe.grid(row=1, column=0)
+		self.buttonframe = tk.Frame(self)
+		self.buttonframe.grid(row=1, column=0)
 
 		self.startbut = ttk.Button(
-			buttonframe, text="Start", command=lambda: self.start_window())
+			self.buttonframe, text="Start", command=lambda: self.start_window())
 		self.startbut.grid(row=0, column=0, padx=15, pady=5)
 
 		self.startbut.bind("<Return>", lambda f: self.start_window())
 		self.startbut.focus_set()
 
 		self.returnbut = ttk.Button(
-			buttonframe, text="Return",
+			self.buttonframe, text="Return",
 			command=lambda: self.controller.show_frame("Rotation"))
 		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
 
@@ -483,9 +498,9 @@ class RotationFigure(tk.Frame):
 	def start_window(self):
 
 
-		self.descrip_text.grid_remove()
+		self.descrip_text.destroy()
 
-		self.start_descrip = ttk.Label(
+		self.start_descrip = tk.Label(
 			self.descrip_frame, text="Click 'Enter' to start the test",
 			font=LARGE_FONT, justify='center')
 		self.start_descrip.grid(row=0, column=0)
@@ -509,9 +524,8 @@ class RotationFigure(tk.Frame):
 	def test_window(self, the_number=5):
 
 
-		self.startbut.grid_remove()
-		self.returnbut.grid_remove()
-		self.start_descrip.grid_remove()
+		self.start_descrip.destroy()
+		self.buttonframe.destroy()
 
 		if self.controller.rot_counter < the_number:
 
@@ -731,6 +745,15 @@ class RotationAnimal(tk.Frame):
 
 	def create_widgets(self):
 
+		try:
+			
+			self.descrip_frame.destroy()
+			self.buttonframe.destroy()
+
+		except:
+
+			pass
+
 
 		self.descrip_frame = tk.Frame(self)
 		self.descrip_frame.grid(row=0, column=0)
@@ -742,11 +765,11 @@ class RotationAnimal(tk.Frame):
 		
 		#Lines underneath - creating additional frames
 		#and gridding them in order to properly set the widgets
-		buttonframe = tk.Frame(self)
-		buttonframe.grid(row=1, column=0)
+		self.buttonframe = tk.Frame(self)
+		self.buttonframe.grid(row=1, column=0)
 
 		self.startbut = ttk.Button(
-			buttonframe, text="Start",
+			self.buttonframe, text="Start",
 			command=lambda: self.start_window())
 		self.startbut.grid(row=0, column=0, padx=15, pady=5)
 
@@ -754,7 +777,7 @@ class RotationAnimal(tk.Frame):
 		self.startbut.focus_set()
 
 		self.returnbut = ttk.Button(
-			buttonframe, text="Return",
+			self.buttonframe, text="Return",
 			command=lambda: self.controller.show_frame("Rotation"))
 		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
 
@@ -765,7 +788,7 @@ class RotationAnimal(tk.Frame):
 	def start_window(self):
 
 
-		self.descrip_text.grid_remove()
+		self.descrip_text.destroy()
 
 		self.start_descrip = ttk.Label(
 			self.descrip_frame, text="Click 'Enter' to start the test",
@@ -783,9 +806,8 @@ class RotationAnimal(tk.Frame):
 	def test_window(self, the_number=5):
 
 
-		self.startbut.grid_remove()
-		self.returnbut.grid_remove()
-		self.start_descrip.grid_remove()
+		self.start_descrip.destroy()
+		self.buttonframe.destroy()
 
 		if self.controller.rot_counter < the_number:
 

@@ -186,11 +186,13 @@ class StroopColor(tk.Frame):
 		#remove buttons
 		self.buttonframe.destroy()
 
+
 		#bigger font in self.text_color for fixation point
 		self.fixation_font = Font(family='Verdana', size=18)
 		self.text_color.tag_configure('fix_big', font=self.fixation_font)
 
 		if self.controller.stroop_counter < the_number:
+			
 			#delete previous text from widget
 			self.text_color['state'] = 'normal'
 			
@@ -209,6 +211,7 @@ class StroopColor(tk.Frame):
 			self.controller.stroop_counter += 1
 
 		else:
+
 			self.controller.show_frame("StroopFinish")
 
 
@@ -347,8 +350,8 @@ class StroopNumber(tk.Frame):
 			self.numbers.destroy()
 
 		except:
+			
 			pass
-
 
 		self.descrip_frame = tk.Frame(self)
 		self.descrip_frame.grid(row=0, column=0)
@@ -427,8 +430,6 @@ class StroopNumber(tk.Frame):
 
 		#remove start button from the view
 		self.buttonframe.destroy()
-		self.returnbut.destroy()
-		self.nav_button.destroy()
 
 		#bigger font in self.text_color for fixation point
 		self.fixation_font = Font(family='Verdana', size=18)
