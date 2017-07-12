@@ -123,8 +123,8 @@ class KrepTest(tk.Frame):
 
 
 		#Remove startbutton - no longer needed
-		self.startbutton.grid_forget()
-		self.return_button.grid_forget()
+		self.startbutton.destroy()
+		self.return_button.destroy()
 
 		#Run test units as long as it doesn't reach number of desired
 		#shown columns
