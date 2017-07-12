@@ -4,6 +4,7 @@ from tkinter import messagebox
 
 
 import os.path
+import webbrowser
 
 from kraepelin import Kraepelin, KrepTest, KrepFinish
 from start_page import StartPage
@@ -215,21 +216,47 @@ class PsychTest(tk.Tk):
 		about_frame.focus_set()
 		
 		#info about test
-		about_label = ttk.Label(about_frame, text=msg, font=NORMAL_FONT)
-		about_label.pack(side="top", fill='x', pady=10)
+		upper_frame = tk.Frame(about_frame)
+		upper_frame.grid(row=0, column=0)
 
-		about_button = ttk.Button(
-			about_frame, text="Ok", command=about_frame.destroy)
-		about_button.pack()
+		about_label = ttk.Label(upper_frame, text=msg, font=NORMAL_FONT)
+		about_label.grid(row=0, column=0, padx=5, pady=5)
+
+		lower_frame = tk.Frame(about_frame)
+		lower_frame.grid(row=1, column=0)
+
+		e_mail = ttk.Button(
+			lower_frame, text="E-mail",
+			command=lambda: PsychTest.send_mail("woj.warych@gmail.com"))
+		e_mail.grid(row=0, column=0, padx=3, pady=3)
+
+		git_hub = ttk.Button(
+			lower_frame, text="Git Hub",
+			command=lambda: PsychTest.git_browser("https://github.com/wojwarych"))
+		git_hub.grid(row=0, column=1, padx=3, pady=3)
 		
 		#Get rid of minimize and maximize button
 		#Disable resize the window by the user 
 		about_frame.attributes("-toolwindow", 1)
 		about_frame.resizable(0, 0)
-		about_frame.geometry("250x250")
+		about_frame.geometry("300x300")
 		about_frame.mainloop()
 
 		#TODO: text of message, button to github/sending e-mail?
+
+
+	@classmethod
+	def git_browser(cls, url):
+		
+
+		return(webbrowser.open_new_tab(url))
+
+
+	@classmethod
+	def send_mail(cls, recipient):
+
+			return(webbrowser.open("mailto:{}".format(recipient)))
+
 
 
 	def quit_msg(self):
