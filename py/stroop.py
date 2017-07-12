@@ -185,7 +185,7 @@ class StroopColor(tk.Frame):
 
 		#remove buttons
 		self.buttonframe.destroy()
-		
+
 		#bigger font in self.text_color for fixation point
 		self.fixation_font = Font(family='Verdana', size=18)
 		self.text_color.tag_configure('fix_big', font=self.fixation_font)
@@ -657,15 +657,15 @@ class StroopFinish(tk.Frame):
 		text_frame_finish = tk.Frame(self)
 		text_frame_finish.grid(row=0, column=0)
 
-		self.text_finish = tk.Text(
+		text_finish = tk.Text(
 			text_frame_finish, font=LARGE_FONT, width=25, bg="#F0F0F0",
 			borderwidth=0)
-		self.text_finish.grid(row=0, column=0)
+		text_finish.grid(row=0, column=0)
 		finish_text = (10*'\n' + thank_you_note)
-		self.text_finish.insert('1.0', finish_text)
-		self.text_finish.tag_configure("center", justify='center')
-		self.text_finish.tag_add("center", "1.0", tk.END)
-		self.text_finish['state'] = 'disabled'
+		text_finish.insert('1.0', finish_text)
+		text_finish.tag_configure("center", justify='center')
+		text_finish.tag_add("center", "1.0", tk.END)
+		text_finish['state'] = 'disabled'
 
 		nav_frame = tk.Frame(self)
 		nav_frame.grid(row=1, column=0)
@@ -676,13 +676,13 @@ class StroopFinish(tk.Frame):
 			"<Return>", lambda f: self.navigation())
 		self.navbutton.grid(row=1, column=0, padx=5, pady=5)
 
-		self.menubutton = ttk.Button(
+		menubutton = ttk.Button(
 			nav_frame, text="Menu",
 			command=lambda: self.controller.show_frame("StartPage"))
-		self.menubutton.bind(
+		menubutton.bind(
 			"<Return>",
 			lambda f: self.controller.show_frame("StartPage"), "+")
-		self.menubutton.grid(row=1, column=1, padx=5, pady=5)
+		menubutton.grid(row=1, column=1, padx=5, pady=5)
 
 
 	def postupdate(self):
