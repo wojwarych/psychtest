@@ -580,7 +580,9 @@ class RotationFigure(tk.Frame):
 	def rotate_image(self, image):
 
 
-		angles = [angle for angle in range(30, 331, 30)]
+		# angle != 180 since flipped image in 180 degrees
+		#looks the same as not flipped
+		angles = [angle for angle in range(30, 331, 30) if angle != 180]
 
 		self.chosen_angle = random.choice(angles)
 

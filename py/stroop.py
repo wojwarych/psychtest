@@ -36,13 +36,13 @@ class Stroop(tk.Frame):
 		self.grid_columnconfigure(0, minsize=475)
 
 
-		self.descrip_frame = tk.Frame(self)
-		self.descrip_frame.grid(row=0, column=0)
+		descrip_frame = tk.Frame(self)
+		descrip_frame.grid(row=0, column=0)
 
 		#description label
 		descrip_lab = tk.Label(
-			self.descrip_frame, text="STROOP TEST",
-			font=LARGE_FONT, justify='center')
+			descrip_frame, text="STROOP TEST", font=LARGE_FONT,
+			justify='center')
 		descrip_lab.grid(row=0, column=0)
 		
 		#navigation buttons
@@ -50,16 +50,18 @@ class Stroop(tk.Frame):
 		buttonframe.grid(row=1, column=0)
 
 		self.nextbut = ttk.Button(
-			buttonframe, text="Next >",
+			buttonframe, text="Next",
 			command=lambda: self.navigate_stroop())
 		self.nextbut.bind("<Return>", lambda f: self.navigate_stroop())
 		self.nextbut.grid(row=0, column=0, padx=15, pady=5)
 
-		self.returnbut = ttk.Button(buttonframe, text="Return",
+		returnbut = ttk.Button(
+			buttonframe, text="Return",
 			command=lambda: self.controller.show_frame("StartPage"))
-		self.returnbut.bind("<Return>",
+		returnbut.bind(
+			"<Return>",
 			lambda f: self.controller.show_frame("StartPage"), "+")
-		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
+		returnbut.grid(row=0, column=1, padx=15, pady=5)
 
 
 	def postupdate(self):
@@ -96,6 +98,15 @@ class StroopColor(tk.Frame):
 		self.grid_rowconfigure(0, weight=2, minsize=317)
 		self.grid_columnconfigure(0, minsize=475)
 
+		self.show_frame()
+
+	def show_frame(self):
+
+		try:
+			self.text_color.destroy()
+
+		except:
+			pass
 
 		self.descrip_frame = tk.Frame(self)
 		self.descrip_frame.grid(row=0, column=0)
@@ -135,8 +146,7 @@ class StroopColor(tk.Frame):
 
 
 		#remove description of test and nav buttons from view
-		self.descrip_frame.grid_remove()
-		self.buttonframe.grid_remove()
+		self.descrip_frame.destroy()
 
 		#frame for experiment's text
 		text_color_frame = tk.Frame(self)
@@ -156,19 +166,26 @@ class StroopColor(tk.Frame):
 		self.text_color['state'] = 'disabled'
 
 		self.nav_button = ttk.Button(
-			text_color_frame, text="Start", command=lambda: self.color_test())
-		self.nav_button.grid(row=1, column=0)
+			self.buttonframe, text="Start", command=lambda: self.color_test())
+		self.nav_button.grid(row=0, column=0, padx=15, pady=5)
 
 		self.nav_button.bind("<Return>", lambda f: self.color_test(), "+")
 		self.nav_button.focus_set()
 
 
+		self.returnbut = ttk.Button(
+			self.buttonframe, text="Return", command=lambda: self.show_frame())
+		self.returnbut.bind(
+			"<Return>", lambda f: self.show_frame(), "+")
+		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
+
+
 	def color_test(self, the_number=5):
 
 
-		#remove start button from the view
-		self.nav_button.grid_remove()
-
+		#remove buttons
+		self.buttonframe.destroy()
+		
 		#bigger font in self.text_color for fixation point
 		self.fixation_font = Font(family='Verdana', size=18)
 		self.text_color.tag_configure('fix_big', font=self.fixation_font)
@@ -319,13 +336,18 @@ class StroopNumber(tk.Frame):
 		tk.Frame.__init__(self, parent)
 		self.controller = controller
 
-		self.grid_rowconfigure(0, weight=2)
-		self.grid_columnconfigure(0, weight=2)
-		
-		self.controller = controller
-
 		self.grid_rowconfigure(0, weight=2, minsize=317)
-		self.grid_columnconfigure(0, minsize=475)
+		self.grid_columnconfigure(0, weight=2, minsize=475)
+		self.show_frame()
+
+	def show_frame(self):
+
+		try:
+			
+			self.numbers.destroy()
+
+		except:
+			pass
 
 
 		self.descrip_frame = tk.Frame(self)
@@ -365,8 +387,8 @@ class StroopNumber(tk.Frame):
 
 
 		#remove description of test and nav buttons from view
-		self.descrip_frame.grid_remove()
-		self.buttonframe.grid_remove()
+		self.nextbut.destroy()
+		self.descrip_frame.destroy()
 
 		#frame for experiment's text
 		number_frame = tk.Frame(self)
@@ -386,18 +408,27 @@ class StroopNumber(tk.Frame):
 		self.numbers['state'] = 'disabled'
 
 		self.nav_button = ttk.Button(
-			number_frame, text="Start", command=lambda: self.numbers_test())
-		self.nav_button.grid(row=1, column=0)
+			self.buttonframe, text="Start", command=lambda: self.numbers_test())
+		self.nav_button.grid(row=0, column=0, padx=15, pady=5)
 		
 		self.nav_button.bind("<Return>", lambda f: self.numbers_test())
 		self.nav_button.focus_set()
+
+		self.returnbut = ttk.Button(
+			self.buttonframe, text="Return",
+			command=lambda: self.show_frame())
+		self.returnbut.bind(
+			"<Return>", lambda f: self.show_frame(), "+")
+		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
 
 
 	def numbers_test(self, the_number=5):
 
 
 		#remove start button from the view
-		self.nav_button.grid_remove()
+		self.buttonframe.destroy()
+		self.returnbut.destroy()
+		self.nav_button.destroy()
 
 		#bigger font in self.text_color for fixation point
 		self.fixation_font = Font(family='Verdana', size=18)
