@@ -153,7 +153,7 @@ class PsychTest(tk.Tk):
 								'475x475',
 								'475x475',
 								'475x475',
-								'300x300',
+								'505x200',
 							   )
 							  ):
 			page_name = F.__name__
