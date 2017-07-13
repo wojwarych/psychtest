@@ -57,8 +57,6 @@ class PsychTest(tk.Tk):
 
 		#exit option in menu cascade
 		mainmenu.add_command(label="Exit", command=lambda: self.quit_msg())
-		
-		#menu cascade
 		menubar.add_cascade(label="Menu", menu=mainmenu)
 		
 		#about cascade
@@ -153,7 +151,7 @@ class PsychTest(tk.Tk):
 								'475x475',
 								'475x475',
 								'475x475',
-								'505x200',
+								'5010x200',
 							   )
 							  ):
 			page_name = F.__name__
@@ -173,6 +171,7 @@ class PsychTest(tk.Tk):
 
 
 		"""Method to pop-up selected frame"""
+
 		frame, geometry = self.frames[cont]
 		self.update_idletasks()
 		self.geometry(geometry)
@@ -225,6 +224,7 @@ class PsychTest(tk.Tk):
 		lower_frame = tk.Frame(about_frame)
 		lower_frame.grid(row=1, column=0)
 
+		#navbuttons for opening 'mailto:'' and github.com
 		e_mail = ttk.Button(
 			lower_frame, text="E-mail",
 			command=lambda: PsychTest.send_mail("woj.warych@gmail.com"))
@@ -242,12 +242,12 @@ class PsychTest(tk.Tk):
 		about_frame.geometry("300x300")
 		about_frame.mainloop()
 
-		#TODO: text of message, button to github/sending e-mail?
-
 
 	@classmethod
 	def git_browser(cls, url):
 		
+
+		"""Method to open browser with desired url"""
 
 		return(webbrowser.open_new_tab(url))
 
@@ -255,12 +255,17 @@ class PsychTest(tk.Tk):
 	@classmethod
 	def send_mail(cls, recipient):
 
-			return(webbrowser.open("mailto:{}".format(recipient)))
+
+		"""Method to open browser with 'mailto:'"""
+
+		return(webbrowser.open("mailto:{}".format(recipient)))
 
 
 
 	def quit_msg(self):
 
+
+		"""Show window when quitting the whole app"""
 
 		if messagebox.askokcancel("Quit",
 			"Do you really wish to quit? All the results will be lost."):
@@ -283,28 +288,27 @@ class PsychTest(tk.Tk):
 		settings_frame.grid(row=0, column=0, rowspan=4, columnspan=3)
 
 		#frame for Kraepelin settings
+		#title of test and proposed options
 		krep_frame = tk.Frame(settings_frame)
 		krep_frame.grid(row=0, column=0, rowspan=4, padx=2, pady=2)
 
-		#title of test
 		krep_name = ttk.Label(
 			krep_frame, font=SMALL_FONT, text="KRAEPELIN TEST")
 		krep_name.grid(row=0, column=0)
 
-		#change number of columns
 		krep_option1 = ttk.Label(
 			krep_frame, font=SMALL_FONT, text="Number of columns:")
 		krep_option1.grid(row=1, column=0)
 
-		#frame for radiobutton with options + for variable keeping track
+		#frame for radiobutton with options to choose
+		#variable to store number of columns
 		cols_krep_grid = tk.Frame(krep_frame)
 		cols_krep_grid.grid(row=2, column=0)
 
-		#variable to store num of columns
 		self.value_radio_cols = tk.IntVar(cols_krep_grid)
 		self.value_radio_cols.set(5)
 
-		#create options of columns
+		#create each radiobutton with option
 		possible_num_cols = [
 							 ('5', 5), ('10', 10), ('15', 15), ('20', 20),
 							 ('25', 25)
@@ -315,20 +319,20 @@ class PsychTest(tk.Tk):
 				value=mode, command=lambda: self.value_radio_cols.get())
 			num_cols.pack(side='left')
 
-		#change number of digits
+		#option no. 2 - digits in one column
 		krep_option2 = ttk.Label(
 			krep_frame, font=SMALL_FONT, text="Digits in column:")
 		krep_option2.grid(row=3, column=0)
 
-		#frame for radiobutton with options + var keeping track
+		#frame for radiobutton with options to choose
+		#variable to store number of columns
 		cols_krep_grid2 = tk.Frame(krep_frame)
 		cols_krep_grid2.grid(row=4, column=0)
 
-		#variable to store digits in column
 		self.value_radio_nums = tk.IntVar(cols_krep_grid)
 		self.value_radio_nums.set(10)
 
-		#create options of digits
+		#create each radiobutton with option
 		possible_digits = [
 						   ('10', 10), ('15', 15), ('20', 20), ('25', 25),
 						   ('30', 30)
@@ -340,30 +344,30 @@ class PsychTest(tk.Tk):
 			num_numbers.pack(side='left')
 
 
-		#frame for stroop
+		#frame for stroop test
 		stroop_frame = tk.Frame(settings_frame)
 		stroop_frame.grid(row=0, column=1, rowspan=3, padx=2, pady=2)
 
 		#title of test
+		#first option
 		stroop_name = ttk.Label(
 			stroop_frame, font=SMALL_FONT, text="STROOP TEST")
 		stroop_name.grid(row=0, column=0)
 
-		#title of option
 		stroop_option1 = ttk.Label(
 			stroop_frame, font=SMALL_FONT, text="Version of test:")
 		stroop_option1.grid(row=1, column=0)
 
-		#frame for radiobutton of options + var for keeping track
+		#frame for radiobutton with options to choose
+		#variable to choose version of test
 		version_stroop_grid = tk.Frame(stroop_frame)
 		version_stroop_grid.grid(row=2, column=0)
 
-		#variable for keeping track of option
 		self.mode_stroop = tk.StringVar(version_stroop_grid)
 		self.mode_stroop.set('classic')
 
 
-		#create radiobutton for options
+		#create each radiobutton with option (version)
 		possible_versions = [
 							 ('Classic', 'classic'), ('Numbers', 'numbers'),
 							 ('Figural', 'figural')
@@ -379,24 +383,24 @@ class PsychTest(tk.Tk):
 		rotation_frame.grid(row=0, column=2, rowspan=3, padx=2, pady=2)
 
 		#title of test
+		#first option
 		rotation_name = ttk.Label(
 			rotation_frame, font=SMALL_FONT, text="MENTAL ROTATION:")
 		rotation_name.grid(row=0, column=0)
 
-		#title of test's option
 		rotation_option1 = ttk.Label(
 			rotation_frame, font=SMALL_FONT, text="Type of test:")
 		rotation_option1.grid(row=1, column=0)
 
-		#frame for radiobutton of versions + var for keeping track
+		#frame for radiobutton with options to choose
+		#variable to choose version of test
 		type_rotation_grid = tk.Frame(rotation_frame)
 		type_rotation_grid.grid(row=2, column=0)
 
-		#variable to keep track of version
 		self.type_rotation = tk.StringVar(type_rotation_grid)
 		self.type_rotation.set('letters')
 		
-		#creating radiobutton for options
+		#create each radiobutton with option (version)
 		possible_types = [
 						  ('Letters', 'letters'), ('Figure', 'figure'),
 						  ('Animal', 'animal')
