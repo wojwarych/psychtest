@@ -180,7 +180,7 @@ class StroopColor(tk.Frame):
 		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
 
 
-	def color_test(self, the_number=5):
+	def color_test(self, the_number=50):
 
 
 		#remove buttons
@@ -425,7 +425,7 @@ class StroopNumber(tk.Frame):
 		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
 
 
-	def numbers_test(self, the_number=5):
+	def numbers_test(self, the_number=50):
 
 
 		#remove start button from the view
