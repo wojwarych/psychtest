@@ -79,8 +79,9 @@ class Summary(tk.Frame):
 			result_frame.bind("<Escape>", lambda f: result_frame.destroy())
 
 			msg_label = tk.Label(
-				result_frame, text="You haven't done this test!")
-			msg_label.grid(row=0, column=0)
+				result_frame, text="You haven't done this test!",
+				font=LARGE_FONT)
+			msg_label.grid(row=0, column=0, padx=20, pady=20)
 
 			ok_button = ttk.Button(
 				result_frame, text="Ok",
@@ -107,7 +108,7 @@ class Summary(tk.Frame):
 				font=LARGE_FONT)
 			good_answers.grid(row=0, column=0, padx=1, pady=1)
 
-			reformat_bad_answ = ("Number of good answers: "
+			reformat_bad_answ = ("Number of bad answers: "
 				+str(self.controller.krep_bad_answ))
 			bad_answers = tk.Label(
 				stats_frame, text=reformat_bad_answ, justify='left',
@@ -162,7 +163,8 @@ class Summary(tk.Frame):
 				"<Escape>", lambda f: result_frame.destroy(), "+")
 
 			msg_label = tk.Label(
-				result_frame, text="You haven't done this test!")
+				result_frame, text="You haven't done this test!",
+				font=LARGE_FONT)
 			msg_label.grid(row=0, column=0, padx=20, pady=20)
 
 			ok_button = ttk.Button(
@@ -189,7 +191,7 @@ class Summary(tk.Frame):
 				font=LARGE_FONT)
 			good_answers.grid(row=0, column=0, padx=2, pady=2)
 
-			reformat_bad_answ = ("Number of good answers: "
+			reformat_bad_answ = ("Number of bad answers: "
 				+str(self.controller.stroop_bad_answ))
 			bad_answers = tk.Label(
 				stats_frame, text=reformat_bad_answ, anchor='w',
@@ -268,7 +270,7 @@ class Summary(tk.Frame):
 			plot_frame = tk.Frame(result_frame)
 			plot_frame.grid(row=1, column=0)
 
-			fig1 = Figure(figsize=(5,2.75), dpi=100, frameon=True)
+			fig1 = Figure(figsize=(3.75,1.50), dpi=100, frameon=True)
 			a1 = fig1.add_subplot(111)
 			a1.plot(
 				range(1, self.controller.stroop_counter+1),
@@ -278,7 +280,7 @@ class Summary(tk.Frame):
 			canvas1.show()
 			canvas1.get_tk_widget().pack(side='left')
 
-			fig2 = Figure(figsize=(5,2.75), dpi=100, frameon=True)
+			fig2 = Figure(figsize=(3.75,1.50), dpi=100, frameon=True)
 			a2 = fig2.add_subplot(111)
 			a2.plot(
 				range(1,(len(self.controller.stroop_time_stamps_cong)+1)),
@@ -288,7 +290,7 @@ class Summary(tk.Frame):
 			canvas2.show()
 			canvas2.get_tk_widget().pack(side='left')
 
-			fig3 = Figure(figsize=(5,2.75), dpi=100, frameon=True)
+			fig3 = Figure(figsize=(3.75,1.50), dpi=100, frameon=True)
 			a3 = fig3.add_subplot(111)
 			a3.plot(
 				range(1,(len(self.controller.stroop_time_stamps_noncong)+1)),
@@ -312,7 +314,8 @@ class Summary(tk.Frame):
 				"<Escape>", lambda f: result_frame.destroy(), "+")
 
 			msg_label = tk.Label(
-				result_frame, text="You haven't done this test!")
+				result_frame, text="You haven't done this test!",
+				font=LARGE_FONT)
 			msg_label.grid(row=0, column=0, padx=20, pady=20)
 
 			ok_button = ttk.Button(
@@ -339,16 +342,22 @@ class Summary(tk.Frame):
 				font=LARGE_FONT)
 			good_answers.grid(row=0, column=0, padx=2, pady=2)
 
-			reformat_bad_answ = ("Number of good answers: "
+			reformat_bad_answ = ("Number of bad answers: "
 				+str(self.controller.rot_bad_answ))
 			bad_answers = tk.Label(
 				stats_frame, text=reformat_bad_answ, anchor='w',
 				font=LARGE_FONT)
 			bad_answers.grid(row=1, column=0, padx=2, pady=2)
 
+			all_times_non_flip = []
+
+			for value in self.controller.rot_angle_time.values():
+
+				all_times_non_flip.extend(value)
+
+
 			not_flipped_fast_val = ("Fastest reaction for normal images: "
-				+str(round(min(list(
-					self.controller.rot_angle_time.values())), 4))
+				+str(round(min(all_times_non_flip), 4))
 				+" sec")
 			not_flipped_fast = tk.Label(
 				stats_frame, text=not_flipped_fast_val, anchor='w',
@@ -356,26 +365,29 @@ class Summary(tk.Frame):
 			not_flipped_fast.grid(row=0, column=1, padx=2, pady=2)
 
 			not_flipped_slow_val = ("Slowest reaction for normal images: "
-				+str(round(max(list(
-					self.controller.rot_angle_time.values())), 4))
+				+str(round(max(all_times_non_flip), 4))
 				+" sec")
 			not_flipped_slow = tk.Label(
 				stats_frame, text=not_flipped_slow_val, anchor='w',
 				font=LARGE_FONT)
-			not_flipped_fast.grid(row=1, column=1, padx=2, pady=2)
+			not_flipped_slow.grid(row=1, column=1, padx=2, pady=2)
 
 			not_flipped_avg_val = ("Average reaction for normal images: "
-				+str(round(mean(list(
-					self.controller.rot_angle_time.values())), 4))
+				+str(round(mean(all_times_non_flip), 4))
 				+" sec")
-			not_flipped_slow = tk.Label(
+			not_flipped_avg = tk.Label(
 				stats_frame, text=not_flipped_avg_val, anchor='w',
 				font=LARGE_FONT)
-			not_flipped_fast.grid(row=2, column=1, padx=2, pady=2)
+			not_flipped_avg.grid(row=2, column=1, padx=2, pady=2)
+
+			all_times_flip = []
+
+			for value in self.controller.rot_flip_angle_time.values():
+
+				all_times_flip.extend(value)
 
 			flipped_fast_val = ("Fastest reaction for flipped images: "
-			+str(round(min(list(
-				self.controller.rot_flip_angle_time.values())), 4))
+			+str(round(min(all_times_flip), 4))
 			+" sec")
 			flipped_fast = tk.Label(
 				stats_frame, text=flipped_fast_val, anchor='w',
@@ -383,8 +395,7 @@ class Summary(tk.Frame):
 			flipped_fast.grid(row=0, column=3, padx=2, pady=2)
 
 			flipped_slow_val = ("Slowest reaction for flipped images: "
-			+str(round(max(list(
-				self.controller.rot_flip_angle_time.values())), 4))
+			+str(round(max(all_times_flip), 4))
 			+" sec")
 			flipped_slow = tk.Label(
 				stats_frame, text=flipped_slow_val, anchor='w',
@@ -392,8 +403,7 @@ class Summary(tk.Frame):
 			flipped_slow.grid(row=1, column=3, padx=2, pady=2)
 
 			flipped_avg_val = ("Average reaction for flipped images: "
-			+str(round(min(list(
-				self.controller.rot_flip_angle_time.values())), 4))
+			+str(round(min(all_times_flip), 4))
 			+" sec")
 			flipped_avg = tk.Label(
 				stats_frame, text=flipped_avg_val, anchor='w',
@@ -403,7 +413,7 @@ class Summary(tk.Frame):
 			plot_frame = tk.Frame(result_frame)
 			plot_frame.grid(row=1, column=0)
 
-			fig1 = Figure(figsize=(5,2.75), dpi=100, frameon=True)
+			fig1 = Figure(figsize=(3.75,1.50), dpi=100, frameon=True)
 			a1 = fig1.add_subplot(111)
 
 			x_axis1 = []
@@ -422,7 +432,7 @@ class Summary(tk.Frame):
 			canvas1.show()
 			canvas1.get_tk_widget().pack(side='left')
 
-			fig2 = Figure(figsize=(5,2.75), dpi=100, frameon=True)
+			fig2 = Figure(figsize=(3.75,1.50), dpi=100, frameon=True)
 			a2 = fig2.add_subplot(111)
 
 			x_axis2 = []
@@ -440,7 +450,7 @@ class Summary(tk.Frame):
 			canvas2.show()
 			canvas2.get_tk_widget().pack(side='left')
 
-			fig3 = Figure(figsize=(5,2.75), dpi=100, frameon=True)
+			fig3 = Figure(figsize=(3.75,1.50), dpi=100, frameon=True)
 			a3 = fig3.add_subplot(111)
 
 			x_axis3 = []
@@ -452,8 +462,8 @@ class Summary(tk.Frame):
 					x_axis3.append(int(key))
 					y_axis3.append(mean(value))
 
-			a2.plot(x_axis3, y_axis3)
+			a3.plot(x_axis3, y_axis3)
 
-			canvas2 = FigureCanvasTkAgg(fig3, plot_frame)
-			canvas2.show()
-			canvas2.get_tk_widget().pack(side='left')
+			canvas3 = FigureCanvasTkAgg(fig3, plot_frame)
+			canvas3.show()
+			canvas3.get_tk_widget().pack(side='left')
