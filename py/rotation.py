@@ -94,7 +94,6 @@ class Rotation(tk.Frame):
 
 class RotationLetter(tk.Frame):
 
-#TODO: STORE ANSWERS FOR THE EACH ANGLE
 
 	def __init__(self, parent, controller):
 
