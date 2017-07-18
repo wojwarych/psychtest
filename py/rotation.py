@@ -59,7 +59,7 @@ class Rotation(tk.Frame):
 		self.nextbut.grid(row=0, column=0, padx=15, pady=5)
 		self.nextbut.bind("<Return>", lambda f: self.test_handler())
 		
-		returnbut = ttk.Button(buttonframe, text="Return",
+		returnbut = ttk.Button(buttonframe, text="Menu",
 			command=lambda: self.controller.show_frame("StartPage"))
 		returnbut.grid(row=0, column=1, padx=15, pady=5)
 		returnbut.bind(
@@ -132,14 +132,14 @@ class RotationLetter(tk.Frame):
 		self.buttonframe.grid(row=1, column=0)
 
 		self.startbut = ttk.Button(
-			self.buttonframe, text="Start",
+			self.buttonframe, text="Next",
 			command=lambda: self.start_window())
 		self.startbut.grid(row=0, column=0, padx=15, pady=5)
 		self.startbut.bind("<Return>", lambda f: self.start_window())
 		self.startbut.focus_set()
 
 		self.returnbut = ttk.Button(
-			self.buttonframe, text="Return",
+			self.buttonframe, text="Menu",
 			command=lambda: self.controller.show_frame("Rotation"))
 		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
 		self.returnbut.bind(
@@ -174,10 +174,12 @@ class RotationLetter(tk.Frame):
 		
 		#change functions of buttons to go further the experiment	
 		self.startbut['command'] = lambda: self.test_window()
+		self.startbut['text'] = "Start"
 		self.startbut.bind("<Return>", lambda f: self.test_window())
 		self.startbut.focus_set()
 
 		self.returnbut['command'] = lambda: self.create_widgets()
+		self.returnbut['text'] = "Back"
 		self.returnbut.bind("<Return>", lambda f: self.create_widgets())
 
 
@@ -497,14 +499,14 @@ class RotationFigure(tk.Frame):
 		self.buttonframe.grid(row=1, column=0)
 
 		self.startbut = ttk.Button(
-			self.buttonframe, text="Start",
+			self.buttonframe, text="Next",
 			command=lambda: self.start_window())
 		self.startbut.grid(row=0, column=0, padx=15, pady=5)
 		self.startbut.bind("<Return>", lambda f: self.start_window())
 		self.startbut.focus_set()
 
 		self.returnbut = ttk.Button(
-			self.buttonframe, text="Return",
+			self.buttonframe, text="Menu",
 			command=lambda: self.controller.show_frame("Rotation"))
 		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
 		self.returnbut.bind(
@@ -525,10 +527,12 @@ class RotationFigure(tk.Frame):
 		self.start_descrip.grid(row=0, column=0)
 
 		self.startbut['command'] = lambda: self.test_window()
+		self.startbut['text'] = "Start"
 		self.startbut.bind("<Return>", lambda f: self.test_window())
 		self.startbut.focus_set()
 
 		self.returnbut['command'] = lambda: self.create_widgets()
+		self.returnbut['text'] = "Back"
 		self.returnbut.bind("<Return>", lambda f: self.create_widgets(), "+")
 
 
@@ -817,14 +821,14 @@ class RotationAnimal(tk.Frame):
 		self.buttonframe.grid(row=1, column=0)
 
 		self.startbut = ttk.Button(
-			self.buttonframe, text="Start",
+			self.buttonframe, text="Next",
 			command=lambda: self.start_window())
 		self.startbut.grid(row=0, column=0, padx=15, pady=5)
 		self.startbut.bind("<Return>", lambda f: self.start_window())
 		self.startbut.focus_set()
 
 		self.returnbut = ttk.Button(
-			self.buttonframe, text="Return",
+			self.buttonframe, text="Menu",
 			command=lambda: self.controller.show_frame("Rotation"))
 		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
 		self.returnbut.bind(
@@ -846,10 +850,12 @@ class RotationAnimal(tk.Frame):
 		self.start_descrip.grid(row=0, column=0)
 
 		self.startbut['command'] = lambda: self.test_window()
+		self.startbut['text'] = "Start"
 		self.startbut.bind("<Return>", lambda f: self.test_window())
 		self.startbut.focus_set()
 
 		self.returnbut['command'] = lambda: self.create_widgets()
+		self.returnbut['text'] = "Back"
 		self.returnbut.bind("<Return>", lambda f: self.create_widgets(), "+")
 
 
