@@ -41,14 +41,14 @@ class Kraepelin(tk.Frame):
 		navigate_frame.grid(row=1, column=0)
 		
 		self.go_button = ttk.Button(
-			navigate_frame, text="Go",
+			navigate_frame, text="Next",
 			command=lambda: self.controller.show_frame("KrepTest"))
 		self.go_button.bind(
 			"<Return>", lambda f: self.controller.show_frame("KrepTest"))
 		self.go_button.grid(row=0, column=0, padx=15, pady=5)
 
 		quit_button = ttk.Button(
-			navigate_frame, text="Return",
+			navigate_frame, text="Menu",
 			command=lambda: self.controller.show_frame("StartPage"))
 		quit_button.grid(row=0, column=1, padx=15, pady=5)
 
@@ -100,12 +100,12 @@ class KrepTest(tk.Frame):
 			self.content_frame, text="Start", command=lambda: self.one_test())
 		
 		self.startbutton.bind("<Return>", lambda f: self.one_test())
-		self.startbutton.grid(row=0, column=0, padx=5, pady=5)
+		self.startbutton.grid(row=0, column=0, padx=15, pady=5)
 
 		self.return_button = ttk.Button(
-			self.content_frame, text="Return",
+			self.content_frame, text="Back",
 			command=lambda: self.controller.show_frame("Kraepelin"))
-		self.return_button.grid(row=0, column=1, padx=5, pady=5)
+		self.return_button.grid(row=0, column=1, padx=15, pady=5)
 
 		self.return_button.bind(
 			"<Return>",
@@ -288,7 +288,7 @@ class KrepFinish(tk.Frame):
 		self.navbutton = ttk.Button(
 			nav_frame, text="Next", command=lambda: self.navigation())
 		self.navbutton.bind("<Return>", lambda f: self.navigation())
-		self.navbutton.grid(row=1, column=0, padx=5, pady=5)
+		self.navbutton.grid(row=1, column=0, padx=15, pady=5)
 
 		self.menubutton = ttk.Button(
 			nav_frame, text="Menu",
@@ -296,7 +296,7 @@ class KrepFinish(tk.Frame):
 		self.menubutton.bind(
 			"<Return>",
 			lambda f: self.controller.show_frame("StartPage"), "+")
-		self.menubutton.grid(row=1, column=1, padx=5, pady=5)
+		self.menubutton.grid(row=1, column=1, padx=15, pady=5)
 
 	def postupdate(self):
 
