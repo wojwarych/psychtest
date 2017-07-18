@@ -77,7 +77,7 @@ class StartPage(tk.Frame):
 		button_frame.grid(row=2, column=0, padx=20, pady=20, sticky='se')
 
 		self.nxt_button = ttk.Button(
-			button_frame, text="Next >",
+			button_frame, text="Next",
 			command=lambda: self.controller.show_frame_handle())
 		self.nxt_button.bind(
 			"<Return>", lambda f: self.controller.show_frame_handle())

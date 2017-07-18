@@ -56,7 +56,7 @@ class Stroop(tk.Frame):
 		self.nextbut.grid(row=0, column=0, padx=15, pady=5)
 
 		returnbut = ttk.Button(
-			buttonframe, text="Return",
+			buttonframe, text="Menu",
 			command=lambda: self.controller.show_frame("StartPage"))
 		returnbut.bind(
 			"<Return>",
@@ -122,13 +122,13 @@ class StroopColor(tk.Frame):
 		self.buttonframe.grid(row=1, column=0)
 
 		self.nextbut = ttk.Button(
-			self.buttonframe, text="Next >",
+			self.buttonframe, text="Next",
 			command=lambda: self.test_window())
 		self.nextbut.bind("<Return>", lambda f: self.test_window())
 		self.nextbut.grid(row=0, column=0, padx=15, pady=5)
 
 		self.returnbut = ttk.Button(
-			self.buttonframe, text="Return",
+			self.buttonframe, text="Back",
 			command=lambda: self.controller.show_frame("Stroop"))
 		self.returnbut.bind("<Return>",
 			lambda f: self.controller.show_frame("Stroop"), "+")
@@ -174,13 +174,13 @@ class StroopColor(tk.Frame):
 
 
 		self.returnbut = ttk.Button(
-			self.buttonframe, text="Return", command=lambda: self.show_frame())
+			self.buttonframe, text="Back", command=lambda: self.show_frame())
 		self.returnbut.bind(
 			"<Return>", lambda f: self.show_frame(), "+")
 		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
 
 
-	def color_test(self, the_number=50):
+	def color_test(self, the_number=100):
 
 
 		#remove buttons
@@ -367,13 +367,13 @@ class StroopNumber(tk.Frame):
 		self.buttonframe.grid(row=1, column=0)
 
 		self.nextbut = ttk.Button(
-			self.buttonframe, text="Next >",
+			self.buttonframe, text="Next",
 			command=lambda: self.test_window())
 		self.nextbut.bind("<Return>", lambda f: self.test_window())
 		self.nextbut.grid(row=0, column=0, padx=15, pady=5)
 
 		self.returnbut = ttk.Button(
-			self.buttonframe, text="Return",
+			self.buttonframe, text="Back",
 			command=lambda: self.controller.show_frame("Stroop"))
 		self.returnbut.bind("<Return>",
 			lambda f: self.controller.show_frame("Stroop"), "+")
@@ -425,7 +425,7 @@ class StroopNumber(tk.Frame):
 		self.returnbut.grid(row=0, column=1, padx=15, pady=5)
 
 
-	def numbers_test(self, the_number=50):
+	def numbers_test(self, the_number=100):
 
 
 		#remove start button from the view
@@ -672,7 +672,7 @@ class StroopFinish(tk.Frame):
 		nav_frame.grid(row=1, column=0)
 
 		self.navbutton = ttk.Button(
-			nav_frame, text="Next", command=lambda: self.navigation())
+			nav_frame, text="Next >", command=lambda: self.navigation())
 		self.navbutton.bind(
 			"<Return>", lambda f: self.navigation())
 		self.navbutton.grid(row=1, column=0, padx=5, pady=5)
