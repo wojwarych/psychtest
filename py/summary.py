@@ -16,6 +16,9 @@ SUPER_LARGE = ("Verdana", 16)
 LARGE_FONT = ("Verdana", 11)
 NORMAL_FONT = ("Verdana", 10)
 SMALL_FONT = ("Verdana", 9)
+SUPER_SMALL = ("Verdana", 8)
+
+FINAL_WORDS = "Click 'Show' to see each experiments data. Click 'Save results' to store them. Click 'Rerun' if you want do the tests again."
 
 
 class Summary(tk.Frame):
@@ -42,17 +45,17 @@ class Summary(tk.Frame):
 		self.krep_results = tk.Label(
 			descrip_frame, text="Kraepelin Test Results", justify="center",
 			font=LARGE_FONT)
-		self.krep_results.grid(row=0, column=0, padx=1, pady=2)
+		self.krep_results.grid(row=0, column=0, padx=45, pady=2)
 
 		self.stroop_results = tk.Label(
 			descrip_frame, text="Stroop Test Results", justify="center",
 			font=LARGE_FONT)
-		self.stroop_results.grid(row=0, column=1, padx=1, pady=2)
+		self.stroop_results.grid(row=0, column=1, padx=45, pady=2)
 
 		self.rotation_results = tk.Label(
 			descrip_frame, text="Mental Rotation Results", justify="center",
 			font=LARGE_FONT)
-		self.rotation_results.grid(row=0, column=2, padx=1, pady=2)
+		self.rotation_results.grid(row=0, column=2, padx=45, pady=2)
 
 		#Frame for buttons to show separate windows with experiment
 		#statistics and buttons to show stats
@@ -80,16 +83,27 @@ class Summary(tk.Frame):
 		self.rotation_button.bind(
 			"<Return>", lambda f: self.show_rotation(), "+")
 
+		self.finish_note = tk.Label(
+			show_plot_frame,
+			text=FINAL_WORDS,
+			font=SMALL_FONT, justify="left")
+		self.finish_note.grid(row=2, column=0, columnspan=3, pady=5)
+
 		#Buttons to save stats to csv file or to rerun experiments
 		self.save_button = ttk.Button(
 			show_plot_frame, text="Save results",
 			command=lambda: self.save_results())
 		self.save_button.grid(row=1, column=1, pady=10)
+		self.save_button.bind(
+			"<Return>", lambda f: save_results(), "+")
 
 		self.rerun_button = ttk.Button(
 			show_plot_frame, text="Run again",
 			command= lambda: self.controller.show_frame("StartPage"))
 		self.rerun_button.grid(row=1, column=2, pady=10)
+		self.rerun_button.bind(
+			"<Return>", lambda f: self.controller.show_frame("StartPage"),
+			"+")
 
 
 	def postupdate(self):
