@@ -672,7 +672,7 @@ class StroopFinish(tk.Frame):
 		nav_frame.grid(row=1, column=0)
 
 		self.navbutton = ttk.Button(
-			nav_frame, text="Next >", command=lambda: self.navigation())
+			nav_frame, text="Next", command=lambda: self.navigation())
 		self.navbutton.bind(
 			"<Return>", lambda f: self.navigation())
 		self.navbutton.grid(row=1, column=0, padx=5, pady=5)
