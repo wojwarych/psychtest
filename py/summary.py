@@ -31,6 +31,9 @@ class Summary(tk.Frame):
 		self.controller = controller
 
 		self.values_to_save = {}
+		self.all_times_flip = []
+		self.all_times_non_flip = []
+
 
 		self.main_frame()
 
@@ -573,17 +576,17 @@ class Summary(tk.Frame):
 
 
 			#store all the values for non-flipped images
-			all_times_non_flip = []
+
 
 			for value in self.controller.rot_angle_time.values():
 
-				all_times_non_flip.extend(value)
+				self.all_times_non_flip.extend(value)
 
 			#stats for fastest, slowest and average time of reaction
 			#for non-flipped images
 			not_flipped_fast_val = (
 				"Fastest reaction for normal images: "
-				+str(round(min(all_times_non_flip), 4))
+				+str(round(min(self.all_times_non_flip), 4))
 				+" sec")
 			not_flipped_fast = tk.Label(
 				stats_frame, text=not_flipped_fast_val, anchor='w',
@@ -592,7 +595,7 @@ class Summary(tk.Frame):
 
 			not_flipped_slow_val = (
 				"Slowest reaction for normal images: "
-				+str(round(max(all_times_non_flip), 4))
+				+str(round(max(self.all_times_non_flip), 4))
 				+" sec")
 			not_flipped_slow = tk.Label(
 				stats_frame, text=not_flipped_slow_val, anchor='w',
@@ -601,7 +604,7 @@ class Summary(tk.Frame):
 
 			not_flipped_avg_val = (
 				"Average reaction for normal images: "
-				+str(round(mean(all_times_non_flip), 4))
+				+str(round(mean(self.all_times_non_flip), 4))
 				+" sec")
 			not_flipped_avg = tk.Label(
 				stats_frame, text=not_flipped_avg_val, anchor='w',
@@ -610,17 +613,16 @@ class Summary(tk.Frame):
 
 
 			#store all the values for flipped images
-			all_times_flip = []
 
 			for value in self.controller.rot_flip_angle_time.values():
 
-				all_times_flip.extend(value)
+				self.all_times_flip.extend(value)
 
 			#stats for fastest, slowest and average time of reaction
 			#for flipped images
 			flipped_fast_val = (
 				"Fastest reaction for flipped images: "
-				+str(round(min(all_times_flip), 4))
+				+str(round(min(self.all_times_flip), 4))
 				+" sec")
 			flipped_fast = tk.Label(
 				stats_frame, text=flipped_fast_val, anchor='w',
@@ -629,7 +631,7 @@ class Summary(tk.Frame):
 
 			flipped_slow_val = (
 				"Slowest reaction for flipped images: "
-				+str(round(max(all_times_flip), 4))
+				+str(round(max(self.all_times_flip), 4))
 				+" sec")
 			flipped_slow = tk.Label(
 				stats_frame, text=flipped_slow_val, anchor='w',
@@ -638,7 +640,7 @@ class Summary(tk.Frame):
 
 			flipped_avg_val = (
 				"Average reaction for flipped images: "
-				+str(round(mean(all_times_flip), 4))
+				+str(round(mean(self.all_times_flip), 4))
 				+" sec")
 			flipped_avg = tk.Label(
 				stats_frame, text=flipped_avg_val, anchor='w',
@@ -655,27 +657,27 @@ class Summary(tk.Frame):
 
 			self.collect_to_save(
 				"Rotation Fastest Reaction (Non-flipped)",
-				round(min(all_times_non_flip), 4))
+				round(min(self.all_times_non_flip), 4))
 
 			self.collect_to_save(
 				"Rotation Slowest Reaction (Non-flipped)",
-				round(max(all_times_non_flip), 4))
+				round(max(self.all_times_non_flip), 4))
 
 			self.collect_to_save(
 				"Rotation Average Reaction (Non-flipped)",
-				round(mean(all_times_non_flip), 4))
+				round(mean(self.all_times_non_flip), 4))
 
 			self.collect_to_save(
 				"Rotation Fastest Reaction (Congruent)",
-				round(min(all_times_flip), 4))
+				round(min(self.all_times_flip), 4))
 
 			self.collect_to_save(
 				"Rotation Slowest Reaction (Congruent)",
-				round(max(all_times_flip), 4))
+				round(max(self.all_times_flip), 4))
 
 			self.collect_to_save(
 				"Rotation Average Reaction (Congruent)",
-				round(mean(all_times_flip), 4),
+				round(mean(self.all_times_flip), 4),
 				end_of_line=True)
 
 			
@@ -813,19 +815,18 @@ class Summary(tk.Frame):
 
 			except ValueError:
 
-				print("There's no such value!")
 				self.values_to_save[name] = "NA;"
 
 		else:
 
 			try:
+				
 				name = name+"\n"
 
 				self.values_to_save[name] = str(value)+"\n"
 
 			except ValueError:
 
-				print("There's no such value!")
 				self.values_to_save[name] = "NA\n"
 
 
